@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-section" id="dashboard">
+  <div class="dashboard-inner">
+    <div style="text-align:center">
+      <div class="section-tag">Contact</div>
+      <h2 class="section-title" style="color: var(--bg);">Un bureau d’études et de conseil au service de la performance des entreprises</h2>
+    </div>
+  </div>
+</section>
+
+<section class="stats-section" id="about">
+  <div class="stat-block">
+    <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.15)">
+      <i class="bi bi-geo-alt-fill" style="color: var(--sky);"></i>
+    </div>
+    <h4 class="card-title">Adresse</h4>
+    <p class="sec-badge-desc">1525, Boulevard 30 Juin. Immeuble VULAMBO (ex.Shell). 7e Niveau, local 2. Kinshas/RDC.</p>
+  </div>
+  <a href="tel:+243830451952" class="stat-block" style="text-decoration: none;">
+    <div class="stat-icon">
+      <i class="bi bi-phone" style="color: var(--sky);"></i>
+    </div>
+    <h4 class="card-title" style="color: var(--text);">Téléphone</h4>
+    <p class="sec-badge-desc">Pour tout besoin de communication, laissez-nous un message ou appelez-nous sur le numéro +243 830 451 952</p>
+  </a>
+  <a href="mailto:contact@bemsconsult.com" class="stat-block" style="text-decoration: none;">
+    <div class="stat-icon">
+      <i class="bi bi-envelope" style="color: var(--sky);"></i>
+    </div>
+    <h4 class="card-title" style="color: var(--text);">E-mail</h4>
+    <p class="sec-badge-desc">Laissez-nous un mail sur contact@bemsconsult.com et en nous expliquant en quoi nous pouvons nous aider.</p>
+  </a>
+  <div class="stat-block">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    </div>
+    <h4 class="card-title">Horraire</h4>
+    <p class="sec-badge-desc">Notre cabinet est ouvert et disponible pour répondre à toutes vos préoccupations du lundi au vendredi, de 8h00 à 15h30</p>
+  </div>
+</section>
+
+<div id="map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d994.6410533471809!2d15.3074578!3d-4.3044605!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a33e917a6c023%3A0xac096400b90cb22f!2sBEMS%20Consult!5e0!3m2!1sfr!2scd!4v1786995248649!5m2!1sfr!2scd" class="w-100" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+</div>
+
+<!-- PRICING -->
+<section class="security-section" id="pricing">
+  <div style="text-align:center">
+    <div class="section-tag">Nous sommes disponible</div>
+    <h2 class="section-title">Pret à demarrer ?</h2>
+    <p class="section-sub">Rejoignez la liste des centaines d'entreprises qui nous ont déjà fait confiance. </p>
+    <div class="mt-5">
+      <a href="https://calendly.com/mars-muka" target="_blank" class="btn-hero">
+        Prenez rendez-vous
+        <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+      </a>
+      <a href="mailto:contact@bemsconsult.com" class="btn-secondary">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<section class="security-section">
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9317.jpg' %}" loading="lazy" class="rounded h-100 w-100" alt="histoire">
+    </div>
+    <div class="col-lg-6">
+        <div class="section-tag">Faites nous directement savoir en quoi nous pouvons vous aider</div>
+        <h2 class="section-title mb-4">Ecrivez-nous.</h2>
+        <form>
+            <div class="row g-2 mb-4">
+                <div class="col-lg-6">
+                  <label class="section-sub">Nom complet</label>
+                  <input class="form-control" type="text" name="nom">
+                </div>
+                <div class="col-lg-6">
+                  <label class="section-sub">Adresse e-mail</label>
+                  <input class="form-control" type="email" name="email">
+                </div>
+                <div class="col-lg-6">
+                  <label class="section-sub">Téléphone (facultatif)</label>
+                  <input class="form-control" type="text" name="tel">
+                </div>
+                <div class="col-lg-6">
+                  <label class="section-sub">Sujet</label>
+                  <input class="form-control" type="text" name="sujet">
+                </div>
+                <div class="col-lg-12">
+                  <label class="section-sub">Message</label>
+                  <textarea class="form-control" name="message" rows="4"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn-hero">
+              Envoyer
+              <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+            </button>
+        </form>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="contact">
+  <div class="faq-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div style="text-align:left">
+        <div class="section-tag">Faq</div>
+        <h2 class="section-title">Vous avez des questions ?</h2>
+      </div>
+    </div>
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Que dois-je fournir lors de ma première prise de contact ?
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Quelques informations sur votre entreprise, votre activité et le type d'accompagnement recherché nous permettront de mieux comprendre votre besoin. Il n'est pas nécessaire de fournir immédiatement tous vos documents.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+        Puis-je demander un devis directement ?
+      </button>
+    </h2>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Oui. Indiquez simplement les services dont vous avez besoin et les principales informations concernant votre activité. Nous pourrons ensuite échanger avec vous afin de préparer une proposition adaptée.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+        Peut-on prendre rendez-vous avec BEMS CONSULT ?
+      </button>
+    </h2>
+    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Oui. Vous pouvez nous contacter afin de convenir d'un rendez-vous selon les disponibilités de nos équipes.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
+        Les rendez-vous peuvent-ils se faire à distance ?
+      </button>
+    </h2>
+    <div id="flush-collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Selon le type de demande et les modalités convenues, certains échanges peuvent être réalisés à distance.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse5" aria-expanded="false" aria-controls="flush-collapse5">
+        Combien de temps faut-il pour obtenir une réponse ?
+      </button>
+    </h2>
+    <div id="flush-collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Nous nous efforçons de répondre aux demandes dans les meilleurs délais. Le délai peut toutefois varier selon la nature et la complexité de la demande.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse6" aria-expanded="false" aria-controls="flush-collapse6">
+        Puis-je vous contacter même si je ne sais pas exactement de quel service j'ai besoin ?
+      </button>
+    </h2>
+    <div id="flush-collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Bien sûr. Expliquez-nous simplement votre situation ou votre problème. Nous pourrons vous orienter vers la prestation la plus adaptée.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse7" aria-expanded="false" aria-controls="flush-collapse7">
+        Puis-je demander un accompagnement urgent ?
+      </button>
+    </h2>
+    <div id="flush-collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Vous pouvez nous contacter en précisant le caractère urgent de votre demande. Nous vous indiquerons les possibilités d'intervention en fonction de notre disponibilité.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse8" aria-expanded="false" aria-controls="flush-collapse8">
+        Que se passe-t-il après ma demande de contact ?
+      </button>
+    </h2>
+    <div id="flush-collapse8" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Un membre de notre équipe prend connaissance de votre demande et revient vers vous afin de recueillir les informations nécessaires et déterminer les prochaines étapes.</div>
+    </div>
+  </div>  
+</div>
+  </div>
+</section>
+
+{% endblock %}

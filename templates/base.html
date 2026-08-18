@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bems Consult — Cabinet de conseil en gestion et finance, Kinshasa</title>
+<meta name="description" content="Bems Consult est un cabinet de conseil en gestion et finance basé à Kinshasa. Nous offrons des solutions innovantes pour optimiser la performance de votre entreprise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="{% static 'css/templatemo-623-novapay-style.css' %}">
+
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-mark">
+      B
+    </div>
+    Bems consult
+  </a>
+  <div class="nav-links">
+    <a href="/cabinet">Cabinet</a>
+    <a href="/services">Services</a>
+    <a href="https://www.bems.academy" target="_blank">Bems academy</a>
+    <a href="/blog">Blog</a>
+    <a href="/contact">Contact</a>
+  </div>
+  <div class="nav-cta">
+    <a href="https://calendly.com/mars-muka" target="_blank" class="btn-primary">Prendre rendez-vous</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/cabinet">Cabinet</a>
+  <a href="/services">Services</a>
+  <a href="https://www.bems.academy">Bems academy</a>
+  <a href="/blog">Blog</a>
+  <a href="/contact">Contact</a>
+  <div class="m-btns">
+    <a href="https://calendly.com/mars-muka" target="_blank" class="btn-primary">Prendre rendez-vous</a>
+  </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<!-- FOOTER -->
+<footer style="padding:24px max(48px, calc((100vw - var(--max-w)) / 2));border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+  <div style="font-size:13px;color:var(--text3)">© 2026 Bems Consult. Tout droit réservés. Développé par <a href="https://www.vinx.app" style="color:var(--sky);text-decoration:none;transition:opacity .3s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Vinx</a>.</div>
+  <div style="display:flex;align-items:center;gap:20px">
+    <a href="#" class="footer-link">Mentions légales</a>
+    <div style="width:1px;height:14px;background:var(--border)"></div>
+    <div style="display:flex;gap:8px">
+      <a href="#" class="social-btn" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-instagram"></i></a>
+      <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-facebook"></i></a>
+      <a href="mailto:contact@bemsconsult.com" class="social-btn" aria-label="GitHub"><i class="bi bi-envelope"></i></a>
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="{% static 'js/templatemo-623-novapay-script.js' %}"></script>
+</body>
+</html>

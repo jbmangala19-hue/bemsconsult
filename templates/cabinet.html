@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-section" id="dashboard">
+  <div class="dashboard-inner">
+    <div style="text-align:center">
+      <div class="section-tag">Le cabinet</div>
+      <h2 class="section-title" style="color: var(--bg);">Un bureau d’études et de conseil au service de la performance des entreprises</h2>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECURITY -->
+<section class="features-section" id="cabinet">
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <div class="section-tag">Notre histoire</div>
+      <h2 class="section-title mb-4">Une mosaïque d’expériences au service d’un objectif</h2>
+      <p class="section-sub mb-5" style="text-align: justify;">BEMS CONSULT est né en décembre 2017 de la rencontre de parcours individuels et collectifs complémentaires : fiscalité, expertise comptable, ingénierie financière, gouvernance. Le cabinet s’est construit autour d’une conviction : les entreprises congolaises méritent un conseil du niveau des grandes places financières, formulé dans leur contexte réglementaire et économique réel.</p>
+      <a href="https://calendly.com/mars-muka" target="_blank" class="btn-hero">
+        Prenez rendez-vous
+        <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+      </a>
+    </div>
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9243.jpg' %}" class="rounded h-100 w-100" alt="histoire">
+    </div>
+  </div>
+</section>
+
+<section class="stats-section" id="about">
+  <div class="stat-block">
+    <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.15)">
+      <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    </div>
+    <h4 class="card-title">Notre vision</h4>
+    <p class="sec-badge-desc">Bâtir une grande référence en conseil, assistance et audit : une source intarissable d’expertise en gestion et finance, adaptée aux réalités pratiques.</p>
+  </div>
+  <div class="stat-block">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    </div>
+    <h4 class="card-title">Notre mission</h4>
+    <p class="sec-badge-desc">Accompagner les entreprises, de la survie à la performance : sécuriser d’abord la conformité fiscale et comptable, puis construire les conditions d’une croissance durable.</p>
+  </div>
+  <div class="stat-block">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+    </div>
+    <h4 class="card-title">Nos valeurs</h4>
+    <p class="sec-badge-desc">Travailler dans l’excellence est notre quotidien. Rigueur technique, confidentialité et indépendance guident chacune de nos interventions.</p>
+  </div>
+  <div class="stat-block">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+    </div>
+    <h4 class="card-title">Notre objectif</h4>
+    <p class="sec-badge-desc">Contribuer à la réussite des entreprises en leur offrant des solutions fiscales et comptables innovantes et efficaces.</p>
+  </div>
+</section>
+
+<section class="security-section" id="security">
+  <div style="text-align:center">
+    <div class="section-tag">L'équipe</div>
+    <h2 class="section-title">Des associés qui suivent vos <br> dossiers de près</h2>
+    <p class="section-sub">BEMS CONSULT est dirigé par des praticiens de la finance et de la fiscalité, formés à Kinshasa, Paris et Dakar, et <br> membres d’organisations professionnelles internationales. </p>
+  </div>
+  <div class="row g-3 mt-5">
+     <div class="col-lg-6">
+      <div class="card h-100">
+        <img src="{% static 'images/_DSC9477.jpg' %}" class="card-img-top" alt="...">
+        <div class="card-body p-4">
+          <h4 class="card-title">MARS MUKA</h4>
+          <span class="sc-pill">Associé, conseil fiscal et financier</span>
+          <span class="sc-pill" style="color: var(--text2);">+10 ans d'expérience</span>
+          <p class="section-sub mt-3 mb-4" style="text-align: justify;">Doctorant en Sciences de Gestion (UPN, Kinshasa/RDC), MBA en Finance (Insitut Français de Gestion, France), Master 2 en Droit-Economie-Gestion (Université Paris 1 Panthéon-Sorbonne), Membre de l'IPA (Institute of Public Accountants, Australie et l'AFA (Association of Finance Accountants, Londres/UK, Affilié à l'IFAC ( Fédération Internationale des Comptables), Certification en: Reporting IFRS (HEC), Business Innovation Management (LSE, Londres/UK), SYCEBNL (ERSUMA-OHADA).</p>
+          <div style="display:flex;gap:8px">
+            <a href="#" class="social-btn" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+            <a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card h-100">
+        <img src="{% static 'images/bouya.jpeg' %}" class="card-img-top" alt="...">
+        <div class="card-body p-4">
+          <h4 class="card-title">BOUYA NDIAYE</h4>
+          <span class="sc-pill">Associé, Directeur Général</span>
+          <span class="sc-pill" style="color: var(--text2);">+15 ans d'expérience</span>
+          <p class="section-sub mt-3 mb-4" style="text-align: justify;">Directeur Général de PHOENIX CONSEIL, Cabinet d'expertise comptable, de conseil, d'arrangement et d'intermédiation financière à Dakar et à Paris, Expert-comptable inscrit aux ordres nationaux français (CSOEC) et français (ONECCA), Commissaire aux comptes inscrit à la compagnie nationales des commissaires aux comptes (CNCC) de France et à l'ONECCA du Sénégal, Executive Master en Ingénierie Financière (IAE de Paris Sorbonne Business School), Master en Sciences de Gestion (Université Paris 1 Panthéon-Sorbonne), Certification professionnelle AMF ( Autorité des marchés financiers, France).</p>
+          <div style="display:flex;gap:8px">
+            <a href="#" class="social-btn" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+            <a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+            <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-btn" aria-label="GitHub"><i class="bi bi-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-section" id="dashboard">
+  <div class="dashboard-inner">
+    <div style="text-align:center">
+      <div class="section-tag">Notre méthode</div>
+      <h2 class="section-title" style="color: var(--bg);">Comment se déroule un accompagnement</h2>
+      <p class="section-sub" style="max-width:500px;margin:0 auto; color: var(--bg2)">Du premier échange à la restitution finale, vous savez à chaque instant où en est votre dossier et ce qui vient ensuite.</p>
+    </div>
+    <div class="pricing-grid mt-5">
+      <div class="sec-badge" style="background:rgba(255, 255, 255, 0.5);border-color:rgba(61,204,142,.15)">
+        <div class="sec-badge-icon" style="color: var(--sky);">1</div>
+        <div class="sec-badge-name">Prise de contact et diagnostic</div>
+        <div class="sec-badge-desc">Vous nous exposez votre situation, sur rendez-vous à notre bureau du Boulevard du 30 juin, en visioconférence ou par écrit. Nous vous remettons ensuite un diagnostic clair de vos enjeux fiscaux, comptables ou de gouvernance.</div>
+      </div>
+      <div class="sec-badge" style="background:rgba(255, 255, 255, 0.5);border-color:rgba(61,204,142,.15)">
+        <div class="sec-badge-icon" style="color: var(--sky);">2</div>
+        <div class="sec-badge-name">Élaboration du plan d'action</div>
+        <div class="sec-badge-desc">Nous formalisons un périmètre, un calendrier et des livrables précis. Vous savez exactement ce qui sera fait, par qui et pour quand, avant de vous engager.</div>
+      </div>
+      <div class="sec-badge" style="background:rgba(255, 255, 255, 0.5);border-color:rgba(61,204,142,.15)">
+        <div class="sec-badge-icon" style="color: var(--sky);">3</div>
+        <div class="sec-badge-name">Mise en œuvre et suivi</div>
+        <div class="sec-badge-desc">La mission est conduite selon la gestion axée sur les résultats, avec des points d’étape réguliers. Chaque livrable est restitué et expliqué à vos équipes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="security-section" id="pricing">
+  <div style="text-align:center">
+    <div class="section-tag">Nous sommes disponible</div>
+    <h2 class="section-title">Pret à demarrer ?</h2>
+    <p class="section-sub">Rejoignez la liste des centaines d'entreprises qui nous ont déjà fait confiance. </p>
+    <div class="mt-5">
+      <a href="https://calendly.com/mars-muka" target="_blank" class="btn-hero">
+        Prenez rendez-vous
+        <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+      </a>
+      <a href="mailto:contact@bemsconsult.com" class="btn-secondary">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="contact">
+  <div class="faq-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div style="text-align:left">
+        <div class="section-tag">Faq</div>
+        <h2 class="section-title">Vous avez des questions ?</h2>
+      </div>
+    </div>
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Qui est BEMS CONSULT ?
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">BEMS CONSULT est un cabinet basé à Kinshasa qui accompagne les entreprises et organisations dans leurs problématiques comptables, fiscales, administratives et financières.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+        Pourquoi choisir un cabinet plutôt que de gérer sa comptabilité en interne ?
+      </button>
+    </h2>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Faire appel à un cabinet permet notamment de bénéficier de compétences spécialisées, d'un regard extérieur et d'un accompagnement adapté aux obligations comptables et fiscales de l'entreprise.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+        Comment garantissez-vous la confidentialité des informations de vos clients ?
+      </button>
+    </h2>
+    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">La confidentialité des informations qui nous sont confiées constitue un principe essentiel de notre relation avec nos clients. Les informations et documents transmis sont traités avec la discrétion et les précautions appropriées.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
+        Travaillez-vous avec des entreprises de différents secteurs ?
+      </button>
+    </h2>
+    <div id="flush-collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Oui. Nous pouvons accompagner des entreprises exerçant dans différents secteurs, en adaptant notre intervention aux particularités de leur activité.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse5" aria-expanded="false" aria-controls="flush-collapse5">
+        Comment se déroule généralement une collaboration ?
+      </button>
+    </h2>
+    <div id="flush-collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">La collaboration commence par un échange permettant de comprendre votre activité et vos besoins. Nous définissons ensuite le périmètre de notre intervention, les modalités de collaboration et les éléments nécessaires au démarrage de la mission.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse6" aria-expanded="false" aria-controls="flush-collapse6">
+        BEMS CONSULT accompagne-t-il les entrepreneurs sur le long terme ?
+      </button>
+    </h2>
+    <div id="flush-collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Oui. Notre objectif est de construire des relations durables avec nos clients et de les accompagner au fur et à mesure de l'évolution de leur activité.</div>
+    </div>
+  </div>  
+</div>
+  </div>
+</section>
+
+{% endblock %}

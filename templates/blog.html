@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-section" id="dashboard">
+  <div class="dashboard-inner">
+    <div style="text-align:center">
+      <div class="section-tag">Actualités</div>
+      <h2 class="section-title" style="color: var(--bg);">Nos dernières publications</h2>
+      <p class="section-sub" style="color: var(--bg);">Réalisations professionelles, analyses réglementaires, échéances fiscales et vie du cabinet : l’essentiel pour rester informé. </p>
+    </div>
+  </div>
+</section>
+<section class="app-section" id="services">
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="row g-3 mt-3 mb-5">
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/flat-lay-business-concept.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body p-4">
+                        <p class="sec-badge-desc">18 juin 2026</p>
+                        <a href="#"><h5 class="card-title">Contrôle fiscal en RDC : se préparer avant l’avis de vérification</h5></a>
+                        <p class="section-sub mt-3 mb-3">Un contrôle fiscal se gagne le plus souvent avant qu’il ne commence. Les réflexes à installer dès maintenant dans votre organisation.</p>
+                        <span class="sc-pill">Fiscalité</span><span class="sc-pill">Controle</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/_DSC9331.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body p-4">
+                        <p class="sec-badge-desc">22 avril 2026</p>
+                        <a href="#"><h5 class="card-title">Reporting ESG : par où commencer quand on est une PME congolaise</h5></a>
+                        <p class="section-sub mt-3 mb-3">Les demandes de données extra-financières arrivent désormais jusqu’aux PME. Une démarche progressive vaut mieux qu’un rapport copié d’ailleurs.</p>
+                        <span class="sc-pill">Durabilité</span><span class="sc-pill">Reporting</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/cloture-comptes.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body p-4">
+                        <p class="sec-badge-desc">10 février 2026</p>
+                        <a href="#"><h5 class="card-title">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h5></a>
+                        <p class="section-sub mt-3 mb-3">La qualité d’une clôture se joue sur quelques travaux précis. Revue des points que nous vérifions en priorité chez nos clients.</p>
+                        <span class="sc-pill">Comptabilité</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/flat-lay-business-concept.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body p-4">
+                        <p class="sec-badge-desc">18 juin 2026</p>
+                        <a href="#"><h5 class="card-title">Contrôle fiscal en RDC : se préparer avant l’avis de vérification</h5></a>
+                        <p class="section-sub mt-3 mb-3">Un contrôle fiscal se gagne le plus souvent avant qu’il ne commence. Les réflexes à installer dès maintenant dans votre organisation.</p>
+                        <span class="sc-pill">Fiscalité</span><span class="sc-pill">Controle</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/_DSC9331.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body p-4">
+                        <p class="sec-badge-desc">22 avril 2026</p>
+                        <a href="#"><h5 class="card-title">Reporting ESG : par où commencer quand on est une PME congolaise</h5></a>
+                        <p class="section-sub mt-3 mb-3">Les demandes de données extra-financières arrivent désormais jusqu’aux PME. Une démarche progressive vaut mieux qu’un rapport copié d’ailleurs.</p>
+                        <span class="sc-pill">Durabilité</span><span class="sc-pill">Reporting</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{% static 'images/cloture-comptes.jpg' %}" class="card-img-top" alt="...">
+                    <div class="card-body p-4">
+                        <p class="sec-badge-desc">10 février 2026</p>
+                        <a href="#"><h5 class="card-title">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h5></a>
+                        <p class="section-sub mt-3 mb-3">La qualité d’une clôture se joue sur quelques travaux précis. Revue des points que nous vérifions en priorité chez nos clients.</p>
+                        <span class="sc-pill">Comptabilité</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:center">
+            <a href="#"class="btn-hero">1</a>
+            <a href="#" class="btn-secondary">2</a>
+            <a href="#" class="btn-secondary">3</a>
+            <a href="#"class="btn-hero">
+                <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="p-4 rounded border d-flex justify-content-between gap-1 mt-4" style="background-color: var(--bg);">
+            <input class="form-control" type="text" placeholder="Recherche">
+            <button class="btn-hero"><svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg></button>
+        </div>
+        <div class="p-4 rounded card mt-4">
+            <div class="d-flex justify-content-between gap-1">
+                <h5 class="card-title mb-5 mt-2">Articles récents</h5>
+                <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.15)">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start gap-1">
+                <img src="{% static 'images/cloture-comptes.jpg' %}" class="rounded" width="45" height="50" alt="Pub 1">
+                <div>
+                    <a href="#" style="text-decoration: none;"><h6 class="card-title text-dark">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h6></a>
+                    <p class="sec-badge-desc" style="margin-top: -13px;">10 février 2026</p>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-start gap-1">
+                <img src="{% static 'images/cloture-comptes.jpg' %}" class="rounded" width="45" height="50" alt="Pub 1">
+                <div>
+                    <a href="#" style="text-decoration: none;"><h6 class="card-title text-dark">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h6></a>
+                    <p class="sec-badge-desc" style="margin-top: -13px;">10 février 2026</p>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-start gap-1">
+                <img src="{% static 'images/cloture-comptes.jpg' %}" class="rounded" width="45" height="50" alt="Pub 1">
+                <div>
+                    <a href="#" style="text-decoration: none;"><h6 class="card-title text-dark">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h6></a>
+                    <p class="sec-badge-desc" style="margin-top: -13px;">10 février 2026</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 rounded card mt-4">
+            <div class="d-flex justify-content-between gap-1">
+                <h5 class="card-title mb-5 mt-2">Tags</h5>
+                <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.15)">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                </div>
+            </div>
+            <div>
+                <a href="#" class="sc-pill">Comptabilité</a>
+                <a href="#" class="sc-pill">Durabilité</a>
+                <a href="#" class="sc-pill">Reporting</a>
+                <a href="#" class="sc-pill">Fiscalité</a>
+                <a href="#" class="sc-pill">Controle</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+
+{% endblock %}

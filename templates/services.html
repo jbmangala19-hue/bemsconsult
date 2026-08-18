@@ -1,0 +1,332 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-section" id="dashboard">
+  <div class="dashboard-inner">
+    <div style="text-align:center">
+      <div class="section-tag">Nos services</div>
+      <h2 class="section-title" style="color: var(--bg);">Quatre domaines d’expertise, une même exigence</h2>
+      <p class="section-sub" style="color: var(--bg)">De la déclaration fiscale au reporting de durabilité, le cabinet couvre l’ensemble des obligations et des choix <br> financiers d’une entreprise opérant en RDC.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECURITY -->
+<section class="faq-section" id="tax">
+  <div class="row g-5">
+    <div class="col-lg-6">
+        <div class="section-tag">Tax</div>
+        <h2 class="section-title mb-4">Conseil fiscal, déclarations, contrôles et contentieux : sécuriser vos obligations vis-à-vis de l’administration fiscale congolaise</h2>
+        <p class="section-sub mb-5" style="text-align: justify;">La fiscalité congolaise évolue vite et se pratique sur le terrain. Le cabinet vous conseille en amont de vos décisions, prépare et dépose vos déclarations, vous assiste pendant les contrôles et vous représente face à l’administration. L’examen de conformité fiscale permet d’identifier les risques avant qu’un vérificateur ne le fasse à votre place, et de chiffrer les régularisations utiles.</p>
+        <div class="sticky-card-pills">
+            <span class="sc-pill" style="color: #3DCC8E">Conseil fiscal</span>
+            <span class="sc-pill" style="color: #3DCC8E">Assistance aux déclarations fiscales</span>
+            <span class="sc-pill" style="color: #3DCC8E">Assistance aux contrôles fiscaux</span>
+            <span class="sc-pill" style="color: #3DCC8E">Défense et représentation fiscale</span>
+            <span class="sc-pill" style="color: #3DCC8E">Examen de conformité fiscale</span>
+        </div>
+    </div>
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9426.jpg' %}" loading="lazy" class="rounded h-100 w-100" alt="histoire">
+    </div>
+  </div>
+</section>
+
+<section class="security-section" id="ifrs">
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9448.jpg' %}" loading="lazy" class="rounded h-100 w-100" alt="histoire">
+    </div>
+    <div class="col-lg-6">
+        <div class="section-tag">IFRS / OHADA</div>
+        <h2 class="section-title mb-4">Migration comptable, reporting aux normes internationales et droit des affaires OHADA, pour des comptes lisibles par vos partenaires.</h2>
+        <p class="section-sub mb-5" style="text-align: justify;">Groupes internationaux, bailleurs et banques attendent des états financiers aux normes IFRS; le droit congolais impose le référentiel SYSCOHADA. Le cabinet fait le pont entre les deux : migration et mapping des comptes, production du reporting en normes internationales, et conseil en droit des affaires OHADA pour sécuriser vos actes de gestion.</p>
+        <div class="sticky-card-pills">
+            <span class="sc-pill" style="color: #3DCC8E">Migration et mapping des comptes IFRS / OHADA</span>
+            <span class="sc-pill" style="color: #3DCC8E">Reporting en normes internationales</span>
+            <span class="sc-pill" style="color: #3DCC8E">Conseil en droit des affaires OHADA</span>
+        </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section" id="durabilite">
+  <div class="row g-5">
+    <div class="col-lg-6">
+        <div class="section-tag">Durabilité</div>
+        <h2 class="section-title mb-4">RSE, reporting ESG, audit de durabilité et mesure d’impacts : répondre aux attentes croissantes des investisseurs et des régulateurs.</h2>
+        <p class="section-sub mb-5" style="text-align: justify;">Les obligations extra-financières gagnent l’Afrique centrale : bailleurs, maisons mères et donneurs d’ordre exigent des données ESG fiables. Le cabinet structure votre démarche de responsabilité sociétale, met en place votre reporting ESG, audite vos publications de durabilité et mesure les impacts réels de vos activités.</p>
+        <div class="sticky-card-pills">
+            <span class="sc-pill" style="color: #3DCC8E">Conseil en responsabilité sociétale des entreprises</span>
+            <span class="sc-pill" style="color: #3DCC8E">Reporting ESG</span>
+            <span class="sc-pill" style="color: #3DCC8E">Audit de la durabilité</span>
+            <span class="sc-pill" style="color: #3DCC8E">Mesure d’impacts</span>
+        </div>
+    </div>
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9264.jpg' %}" loading="lazy" class="rounded h-100 w-100" alt="histoire">
+    </div>
+  </div>
+</section>
+
+<section class="security-section" id="conseils">
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9467.jpg' %}" loading="lazy" class="rounded h-100 w-100" alt="histoire">
+    </div>
+    <div class="col-lg-6">
+        <div class="section-tag">Conseils</div>
+        <h2 class="section-title mb-4">Patrimoine, investissement, gouvernance : éclairer les décisions structurantes des dirigeants et des actionnaires.</h2>
+        <p class="section-sub mb-5" style="text-align: justify;">Au-delà de la conformité, les dirigeants ont besoin d’un regard extérieur pour leurs décisions structurantes : organiser un patrimoine, évaluer un investissement, clarifier la gouvernance entre associés. Le cabinet apporte une analyse écrite, chiffrée et argumentée, qui vous permet de décider en connaissance de cause.</p>
+        <div class="sticky-card-pills">
+            <span class="sc-pill" style="color: #3DCC8E">Conseil patrimonial</span>
+            <span class="sc-pill" style="color: #3DCC8E">Conseil en investissement</span>
+            <span class="sc-pill" style="color: #3DCC8E">Conseil juridique et gouvernance</span>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div style="text-align:center">
+    <div class="section-tag">Témoignages</div>
+    <h2 class="section-title">Ce que nos clients ont pensé de nous</h2>
+  </div>
+  <div class="testi-track-wrap">
+    <div class="testi-track">
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testi-quote">Our accountants love the automated reconciliation. What took 8 hours a month now takes 20 minutes.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JB</div>
+          <div>
+            <div class="testi-name">Jean Baptiiste</div>
+            <div class="testi-role">Président</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testi-quote">Our accountants love the automated reconciliation. What took 8 hours a month now takes 20 minutes.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JB</div>
+          <div>
+            <div class="testi-name">Jean Baptiiste</div>
+            <div class="testi-role">Président</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testi-quote">Our accountants love the automated reconciliation. What took 8 hours a month now takes 20 minutes.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JB</div>
+          <div>
+            <div class="testi-name">Jean Baptiiste</div>
+            <div class="testi-role">Président</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testi-quote">Our accountants love the automated reconciliation. What took 8 hours a month now takes 20 minutes.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JB</div>
+          <div>
+            <div class="testi-name">Jean Baptiiste</div>
+            <div class="testi-role">Président</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testi-quote">Our accountants love the automated reconciliation. What took 8 hours a month now takes 20 minutes.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">JB</div>
+          <div>
+            <div class="testi-name">Jean Baptiiste</div>
+            <div class="testi-role">Président</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+  <div style="display:flex;justify-content:center;margin-top:32px">
+    <button style="background:var(--bg2);border:1px solid var(--border2);color:var(--text2);padding:10px 18px;border-radius:24px;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;transition:border-color .5s var(--silk),color .5s var(--silk)">
+      <span id="testiLabel">Voir tous les témoignes</span>
+    </button>
+  </div>
+  -->
+</section>
+
+<!-- SECURITY -->
+<section class="features-section" id="cabinet">
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <div class="section-tag">Pourquoi nous ?</div>
+      <h2 class="section-title mb-4">Une exigence de service rarement réunie sur le marché congolais</h2>
+      <p class="section-sub mb-5" style="text-align: justify;">Le cabinet associe une connaissance fine de l’administration fiscale congolaise à une pratique éprouvée des référentiels internationaux. Nos associés cumulent des expériences à Kinshasa, Dakar et Paris, et interviennent dans l’ensemble de l’espace OHADA.</p>
+      <a href="https://calendly.com/mars-muka" target="_blank" class="btn-hero">
+        Prenez rendez-vous
+        <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+      </a>
+    </div>
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9243.jpg' %}" class="rounded h-100 w-100" alt="histoire">
+    </div>
+  </div>
+</section>
+
+<section class="stats-section" id="about">
+  <div class="stat-block">
+    <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.15)">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    </div>
+    <h4 class="card-title">Double culture réglementaire</h4>
+    <p class="sec-badge-desc">Fiscalité congolaise et normes internationales (IFRS, ESG) traitées par la même équipe.</p>
+  </div>
+  <div class="stat-block">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <h4 class="card-title">Un associé comme interlocuteur</h4>
+    <p class="sec-badge-desc">Chaque mission est suivie directement par un associé du cabinet, du cadrage à la restitution.</p>
+  </div>
+  <div class="stat-block">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <h4 class="card-title">Des livrables qui engagent</h4>
+    <p class="sec-badge-desc">Des rapports écrits, datés et argumentés, pas de simples avis oraux.</p>
+  </div>
+  <div class="stat-block">
+    <div class="stat-icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    </div>
+    <h4 class="card-title">Un ancrage régional</h4>
+    <p class="sec-badge-desc">Des relais à Dakar et à Paris à travers les activités de nos associés.</p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="security-section" id="pricing">
+  <div style="text-align:center">
+    <div class="section-tag">Nous sommes disponible</div>
+    <h2 class="section-title">Pret à demarrer ?</h2>
+    <p class="section-sub">Rejoignez la liste des centaines d'entreprises qui nous ont déjà fait confiance. </p>
+    <div class="mt-5">
+      <a href="https://calendly.com/mars-muka" target="_blank" class="btn-hero">
+        Prenez rendez-vous
+        <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+      </a>
+      <a href="mailto:contact@bemsconsult.com" class="btn-secondary">Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="contact">
+  <div class="faq-inner">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div style="text-align:left">
+        <div class="section-tag">Faq</div>
+        <h2 class="section-title">Vous avez des questions ?</h2>
+      </div>
+    </div>
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Quels services comptables proposez-vous ?
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Nous proposons notamment des services de tenue et suivi comptable, établissement des états financiers, accompagnement fiscal, déclarations, conseil et assistance dans la gestion administrative et financière.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+        Proposez-vous des services fiscaux ?
+      </button>
+    </h2>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Oui. Nous accompagnons nos clients dans le suivi de leurs obligations fiscales, la préparation de leurs déclarations et la compréhension de leur situation fiscale.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+        Proposez-vous un accompagnement pour la création d'entreprise ?
+      </button>
+    </h2>
+    <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Oui. Nous pouvons accompagner les porteurs de projets et entrepreneurs dans les aspects comptables, fiscaux et administratifs liés au démarrage de leur activité.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
+        Pouvez-vous accompagner une entreprise qui possède déjà un comptable ?
+      </button>
+    </h2>
+    <div id="flush-collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Oui. Nous pouvons intervenir en complément de votre équipe interne, notamment pour le contrôle, le conseil, certaines déclarations ou des missions spécifiques.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse5" aria-expanded="false" aria-controls="flush-collapse5">
+        Vos services sont-ils disponibles sous abonnement ?
+      </button>
+    </h2>
+    <div id="flush-collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Certaines prestations peuvent faire l'objet d'un accompagnement récurrent. Les modalités et tarifs dépendent de la nature et du volume des services nécessaires.</div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse6" aria-expanded="false" aria-controls="flush-collapse6">
+        Peut-on demander uniquement une prestation ponctuelle ?
+      </button>
+    </h2>
+    <div id="flush-collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body">Oui. Vous pouvez nous solliciter pour une mission spécifique sans nécessairement confier l'ensemble de votre comptabilité au cabinet.</div>
+    </div>
+  </div>  
+</div>
+  </div>
+</section>
+
+{% endblock %}
