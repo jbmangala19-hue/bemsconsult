@@ -9,8 +9,11 @@
     <div style="text-align:center">
       <div class="section-tag">Contact</div>
       <h2 class="section-title" style="color: var(--bg);">Un bureau d’études et de conseil au service de la performance des entreprises</h2>
+      {% if message %}
+        <p class="alert alert-success">{{ message }}</p>
+      {% endif %}
     </div>
-  </div>
+         </div>
 </section>
 
 <section class="stats-section" id="about">
@@ -72,27 +75,28 @@
     <div class="col-lg-6">
         <div class="section-tag">Faites nous directement savoir en quoi nous pouvons vous aider</div>
         <h2 class="section-title mb-4">Ecrivez-nous.</h2>
-        <form>
+        <form method="post" action="{% url 'contact' %}">
+          {% csrf_token %}
             <div class="row g-2 mb-4">
                 <div class="col-lg-6">
                   <label class="section-sub">Nom complet</label>
-                  <input class="form-control" type="text" name="nom">
+                  <input class="form-control" type="text" name="nom" placeholder="Entrez votre nom complet" required>
                 </div>
                 <div class="col-lg-6">
                   <label class="section-sub">Adresse e-mail</label>
-                  <input class="form-control" type="email" name="email">
+                  <input class="form-control" type="email" name="email" placeholder="Entrez votre adresse e-mail" required>
                 </div>
                 <div class="col-lg-6">
                   <label class="section-sub">Téléphone (facultatif)</label>
-                  <input class="form-control" type="text" name="tel">
+                  <input class="form-control" type="text" name="tel" placeholder="Entrez votre numéro de téléphone">
                 </div>
                 <div class="col-lg-6">
                   <label class="section-sub">Sujet</label>
-                  <input class="form-control" type="text" name="sujet">
+                  <input class="form-control" type="text" name="sujet" placeholder="Entrez le sujet de votre message" required>
                 </div>
                 <div class="col-lg-12">
                   <label class="section-sub">Message</label>
-                  <textarea class="form-control" name="message" rows="4"></textarea>
+                  <textarea class="form-control" name="message" placeholder="Entrez votre message" rows="4" required></textarea>
                 </div>
             </div>
             <button type="submit" class="btn-hero">

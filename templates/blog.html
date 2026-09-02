@@ -3,6 +3,7 @@
 
 {% block content %}
 
+    {% block actu %}
 <!-- DASHBOARD PREVIEW -->
 <section class="dashboard-section" id="dashboard">
   <div class="dashboard-inner">
@@ -17,87 +18,71 @@
 <div class="row g-4">
     <div class="col-lg-8">
         <div class="row g-3 mt-3 mb-5">
-            <div class="col-lg-4">
-                <div class="card h-100">
-                    <img src="{% static 'images/flat-lay-business-concept.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body p-4">
-                        <p class="sec-badge-desc">18 juin 2026</p>
-                        <a href="#"><h5 class="card-title">Contrôle fiscal en RDC : se préparer avant l’avis de vérification</h5></a>
-                        <p class="section-sub mt-3 mb-3">Un contrôle fiscal se gagne le plus souvent avant qu’il ne commence. Les réflexes à installer dès maintenant dans votre organisation.</p>
-                        <span class="sc-pill">Fiscalité</span><span class="sc-pill">Controle</span>
+            {% for article in articles %}
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        {% if article.image %}
+                            <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.titre }}" style="height: 220px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'images/flat-lay-business-concept.jpg' %}" class="card-img-top" alt="{{ article.titre }}" style="height: 220px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <div>
+                                    <span class="sec-badge-desc">{{ article.created_at|date:"d F Y" }}</span>
+                                </div>
+                                <div class="d-flex gap-3">
+                                    <div class="d-flex align-items-center gap-1">
+                                    <i class="bi bi-eye" style="color: var(--sky);"></i>
+                                    <span class="sec-badge-desc">{{ article.lectures.count }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                    <i class="bi bi-chat" style="color: var(--sky);"></i>
+                                    <span class="sec-badge-desc">{{ article.commentaires.count }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url 'detail_article' article.slug %}"><h5 class="card-title">{{ article.titre }}</h5></a>
+                            <p class="section-sub mt-3 mb-3">{{ article.contenu|striptags|truncatechars:150 }}</p>
+                            {% for categorie_article in article.categorie_articles.all|slice:':2' %}
+                                <span class="sc-pill">{{ categorie_article.categorie.nom }}</span>
+                            {% empty %}
+                                <span class="sc-pill">Actualité</span>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card h-100">
-                    <img src="{% static 'images/_DSC9331.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body p-4">
-                        <p class="sec-badge-desc">22 avril 2026</p>
-                        <a href="#"><h5 class="card-title">Reporting ESG : par où commencer quand on est une PME congolaise</h5></a>
-                        <p class="section-sub mt-3 mb-3">Les demandes de données extra-financières arrivent désormais jusqu’aux PME. Une démarche progressive vaut mieux qu’un rapport copié d’ailleurs.</p>
-                        <span class="sc-pill">Durabilité</span><span class="sc-pill">Reporting</span>
-                    </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="section-sub">Aucun article publié pour le moment.</p>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card h-100">
-                    <img src="{% static 'images/cloture-comptes.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body p-4">
-                        <p class="sec-badge-desc">10 février 2026</p>
-                        <a href="#"><h5 class="card-title">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h5></a>
-                        <p class="section-sub mt-3 mb-3">La qualité d’une clôture se joue sur quelques travaux précis. Revue des points que nous vérifions en priorité chez nos clients.</p>
-                        <span class="sc-pill">Comptabilité</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card h-100">
-                    <img src="{% static 'images/flat-lay-business-concept.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body p-4">
-                        <p class="sec-badge-desc">18 juin 2026</p>
-                        <a href="#"><h5 class="card-title">Contrôle fiscal en RDC : se préparer avant l’avis de vérification</h5></a>
-                        <p class="section-sub mt-3 mb-3">Un contrôle fiscal se gagne le plus souvent avant qu’il ne commence. Les réflexes à installer dès maintenant dans votre organisation.</p>
-                        <span class="sc-pill">Fiscalité</span><span class="sc-pill">Controle</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card h-100">
-                    <img src="{% static 'images/_DSC9331.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body p-4">
-                        <p class="sec-badge-desc">22 avril 2026</p>
-                        <a href="#"><h5 class="card-title">Reporting ESG : par où commencer quand on est une PME congolaise</h5></a>
-                        <p class="section-sub mt-3 mb-3">Les demandes de données extra-financières arrivent désormais jusqu’aux PME. Une démarche progressive vaut mieux qu’un rapport copié d’ailleurs.</p>
-                        <span class="sc-pill">Durabilité</span><span class="sc-pill">Reporting</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card h-100">
-                    <img src="{% static 'images/cloture-comptes.jpg' %}" class="card-img-top" alt="...">
-                    <div class="card-body p-4">
-                        <p class="sec-badge-desc">10 février 2026</p>
-                        <a href="#"><h5 class="card-title">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h5></a>
-                        <p class="section-sub mt-3 mb-3">La qualité d’une clôture se joue sur quelques travaux précis. Revue des points que nous vérifions en priorité chez nos clients.</p>
-                        <span class="sc-pill">Comptabilité</span>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <div style="text-align:center">
-            <a href="#"class="btn-hero">1</a>
-            <a href="#" class="btn-secondary">2</a>
-            <a href="#" class="btn-secondary">3</a>
-            <a href="#"class="btn-hero">
-                <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
-            </a>
+            {% if page_obj.has_previous %}
+                <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_obj.previous_page_number }}" class="btn-hero" aria-label="Page précédente">
+                    <svg viewBox="0 0 16 16"><line x1="13" y1="8" x2="3" y2="8"/><polyline points="7,4 3,8 7,12"/></svg>
+                </a>
+            {% endif %}
+            {% for page_number in page_obj.paginator.page_range %}
+                <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_number }}" class="{% if page_number == page_obj.number %}btn-hero{% else %}btn-secondary{% endif %}">{{ page_number }}</a>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_obj.next_page_number }}" class="btn-hero" aria-label="Page suivante">
+                    <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+                </a>
+            {% endif %}
         </div>
     </div>
+    {% endblock %}
+
     <div class="col-lg-4">
-        <div class="p-4 rounded border d-flex justify-content-between gap-1 mt-4" style="background-color: var(--bg);">
-            <input class="form-control" type="text" placeholder="Recherche">
-            <button class="btn-hero"><svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg></button>
-        </div>
+        <form method="get" action="{% url 'blog' %}">
+            <div class="p-4 rounded border d-flex justify-content-between gap-1 mt-4" style="background-color: var(--bg);">            
+                <input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Rechercher un article" aria-label="Rechercher un article">
+                <button class="btn-hero"><svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg></button>
+            </div>
+        </form>
         <div class="p-4 rounded card mt-4">
             <div class="d-flex justify-content-between gap-1">
                 <h5 class="card-title mb-5 mt-2">Articles récents</h5>
@@ -105,31 +90,38 @@
                     <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                 </div>
             </div>
-            <div class="d-flex justify-content-start gap-1">
-                <img src="{% static 'images/cloture-comptes.jpg' %}" class="rounded" width="45" height="50" alt="Pub 1">
-                <div>
-                    <a href="#" style="text-decoration: none;"><h6 class="card-title text-dark">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h6></a>
-                    <p class="sec-badge-desc" style="margin-top: -13px;">10 février 2026</p>
+            {% for article in recent_articles %}
+                <div class="d-flex justify-content-start gap-1">
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" class="rounded" width="45" height="50" alt="{{ article.titre }}">
+                    {% else %}
+                        <img src="{% static 'images/cloture-comptes.jpg' %}" class="rounded" width="45" height="50" alt="{{ article.titre }}">
+                    {% endif %}
+                    <div>
+                        <a href="{% url 'detail_article' article.slug %}" style="text-decoration: none;"><h6 class="card-title text-dark">{{ article.titre }}</h6></a>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span class="sec-badge-desc">{{ article.created_at|date:"d F Y" }}</span>
+                            </div>
+                            <div class="d-flex gap-3">
+                                <div class="d-flex align-items-center gap-1">
+                                <i class="bi bi-eye" style="color: var(--sky);"></i>
+                                <span class="sec-badge-desc">{{ article.lectures.count }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                <i class="bi bi-chat" style="color: var(--sky);"></i>
+                                <span class="sec-badge-desc">{{ article.commentaires.count }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <div class="d-flex justify-content-start gap-1">
-                <img src="{% static 'images/cloture-comptes.jpg' %}" class="rounded" width="45" height="50" alt="Pub 1">
-                <div>
-                    <a href="#" style="text-decoration: none;"><h6 class="card-title text-dark">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h6></a>
-                    <p class="sec-badge-desc" style="margin-top: -13px;">10 février 2026</p>
-                </div>
-            </div>
-            <hr>
-            <div class="d-flex justify-content-start gap-1">
-                <img src="{% static 'images/cloture-comptes.jpg' %}" class="rounded" width="45" height="50" alt="Pub 1">
-                <div>
-                    <a href="#" style="text-decoration: none;"><h6 class="card-title text-dark">Clôture des comptes : les points de vigilance SYSCOHADA avant l’assemblée générale</h6></a>
-                    <p class="sec-badge-desc" style="margin-top: -13px;">10 février 2026</p>
-                </div>
-            </div>
+                {% if not forloop.last %}<hr>{% endif %}
+            {% empty %}
+                <p class="section-sub">Aucun article récent.</p>
+            {% endfor %}
         </div>
-        <div class="p-4 rounded card mt-4">
+        <div class="p-4 rounded card mt-4 mb-5">
             <div class="d-flex justify-content-between gap-1">
                 <h5 class="card-title mb-5 mt-2">Tags</h5>
                 <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.15)">
@@ -137,15 +129,59 @@
                 </div>
             </div>
             <div>
-                <a href="#" class="sc-pill">Comptabilité</a>
-                <a href="#" class="sc-pill">Durabilité</a>
-                <a href="#" class="sc-pill">Reporting</a>
-                <a href="#" class="sc-pill">Fiscalité</a>
-                <a href="#" class="sc-pill">Controle</a>
+                {% for categorie in categories %}
+                    <a href="{% url 'blog' %}?categorie={{ categorie.id }}" class="sc-pill{% if category_id == categorie.id|stringformat:'s' %} active{% endif %}">
+                        {{ categorie.nom }}
+                    </a>
+                {% empty %}
+                    <p class="section-sub">Aucune catégorie associée.</p>
+                {% endfor %}
             </div>
         </div>
+        {% if category_id or query %}
+            <a href="{% url 'blog' %}" class="btn-secondary">
+                Réinitialiser les filtres
+            </a>
+        {% endif %}
     </div>
 </div>
+</section>
+
+<section class="features-section">
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9337.jpg' %}" loading="lazy" class="rounded h-100 w-100" alt="histoire">
+    </div>
+    <div class="col-lg-6">
+        <div class="section-tag">Abonnement</div>
+        <h2 class="section-title mb-4">Créez un compte pour vous abonner à notre newsletter</h2>
+        <form method="post" action="{% url 'inscription' %}">
+            {% csrf_token %}
+            <div class="row g-2 mb-4">
+                <div class="col-lg-6 mb-2">
+                  <label class="section-sub">Nom complet</label>
+                  <input class="form-control" type="text" name="nom" placeholder="Entrez votre nom complet" required>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <label class="section-sub">Téléphone (facultatif)</label>
+                  <input class="form-control" type="text" name="tel" placeholder="Entrez votre numéro">
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <label class="section-sub">Adresse e-mail</label>
+                  <input class="form-control" type="email" name="email" placeholder="exemple@gmail.com" required>
+                </div>
+                <div class="col-lg-6 mb-2">
+                  <label class="section-sub">Mot de passe</label>
+                  <input class="form-control" type="password" name="password" placeholder="Min. 8 caractères" required>
+                </div>
+            </div>
+            <button type="submit" class="btn-hero">
+              S'abonner
+              <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+            </button>
+        </form>
+    </div>
+  </div>
 </section>
 
 

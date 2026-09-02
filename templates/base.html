@@ -13,6 +13,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="{% static 'css/templatemo-623-novapay-style.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
 </head>
 <body>
@@ -22,22 +23,25 @@
   <div class="ticker-track" id="tickerTrack"></div>
 </div>
 
+{% block nav %}  
 <!-- NAV -->
 <nav id="mainNav">
   <a href="/" class="nav-logo">
-    <div class="nav-logo-mark">
-      B
-    </div>
-    Bems consult
+    <img src="{% static 'images/logo.png' %}" height="120" width="150" alt="Bems Consult logo">
   </a>
   <div class="nav-links">
-    <a href="/cabinet">Cabinet</a>
-    <a href="/services">Services</a>
-    <a href="https://www.bems.academy" target="_blank">Bems academy</a>
-    <a href="/blog">Blog</a>
-    <a href="/contact">Contact</a>
+    <a href="/cabinet" class="{{cabinet_active}}">Cabinet</a>
+    <a href="/services" class="{{services_active}}">Services</a>
+    <a href="https://www.bems.academy" target="_blank" class="{{academy_active}}">Bems academy</a>
+    <a href="/blog" class="{{blog_active}}">Blog</a>
+    <a href="/contact" class="{{contact_active}}">Contact</a>
   </div>
   <div class="nav-cta">
+    {% if user.is_authenticated %}
+      <a href="{% url 'deconnexion' %}" class="btn-ghost">Déconnexion</a>
+    {% else %}
+      <a href="/connexion" class="btn-ghost">Connexion</a>
+    {% endif %}
     <a href="https://calendly.com/mars-muka" target="_blank" class="btn-primary">Prendre rendez-vous</a>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
@@ -47,18 +51,26 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="/cabinet">Cabinet</a>
-  <a href="/services">Services</a>
-  <a href="https://www.bems.academy">Bems academy</a>
-  <a href="/blog">Blog</a>
-  <a href="/contact">Contact</a>
+  <a href="/cabinet" class="{{cabinet_active}}">Cabinet</a>
+  <a href="/services" class="{{services_active}}">Services</a>
+  <a href="https://www.bems.academy" class="{{academy_active}}">Bems academy</a>
+  <a href="/blog" class="{{blog_active}}">Blog</a>
+  <a href="/contact" class="{{contact_active}}">Contact</a>
   <div class="m-btns">
+    {% if user.is_authenticated %}
+      <a href="{% url 'deconnexion' %}" class="btn-ghost">Déconnexion</a>
+    {% else %}
+      <a href="/connexion" class="btn-ghost">Connexion</a>
+    {% endif %}
     <a href="https://calendly.com/mars-muka" target="_blank" class="btn-primary">Prendre rendez-vous</a>
   </div>
 </div>
 
+{% endblock %}
+
 {% block content %}{% endblock %}
 
+{% block footer %}
 <!-- FOOTER -->
 <footer style="padding:24px max(48px, calc((100vw - var(--max-w)) / 2));border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
   <div style="font-size:13px;color:var(--text3)">© 2026 Bems Consult. Tout droit réservés. Développé par <a href="https://www.vinx.app" style="color:var(--sky);text-decoration:none;transition:opacity .3s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Vinx</a>.</div>
@@ -78,3 +90,4 @@
 <script src="{% static 'js/templatemo-623-novapay-script.js' %}"></script>
 </body>
 </html>
+{% endblock %}

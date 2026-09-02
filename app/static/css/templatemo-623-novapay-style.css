@@ -141,6 +141,12 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   transition:color .4s var(--silk),background .4s var(--silk);
   letter-spacing:.01em;
 }
+
+.nav-links .active{
+  color:var(--sky);
+  background:rgba(74,158,232,.1);
+}
+
 .nav-links a:hover{color:var(--bg);background:rgba(255,255,255,.05)}
 .nav-cta{
   margin-left:12px;
@@ -151,7 +157,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 .btn-ghost{
   background:transparent;
   border:1px solid var(--border2);
-  color:var(--text2);
+  color:var(--border2);
   font-family:'DM Sans',sans-serif;
   font-size:14px;
   font-weight:500;
@@ -257,7 +263,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   top:0;left:0;
   width:100%;height:100%;
   background-image:url('../images/video-hero.gif');
-  mask-image:radial-gradient(ellipse 50% 100% at 50% 0%,#000 0%,transparent 90%);
+  mask-image:radial-gradient(ellipse 80% 100% at 50% 0%,#000 0%,transparent 90%);
   pointer-events:none;
   z-index:0;
 }
@@ -364,7 +370,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   transition:border-color .5s var(--silk),color .5s var(--silk);
   text-decoration:none;
 }
-.btn-secondary:hover{border-color:var(--text2);color:var(--text2)}
+.btn-secondary:hover{border-color:var(--sky);color:var(--sky)}
 .hero-trust{
   display:flex;
   align-items:center;
@@ -392,7 +398,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 /* HERO DASHBOARD MOCKUP */
 .hero-visual{
   position:relative;
-  margin-bottom: -125px;
+  margin-bottom: -17%;
 }
 .dash-card{
   border:1px solid transparent;
@@ -762,7 +768,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 .pm-sec-status{font-size:10px;color:var(--green)}
 
 /* DASHBOARD PREVIEW */
-.dashboard-section{
+.dashboard-section, .couverture-section{
   padding:100px max(48px, calc((100vw - var(--max-w)) / 2));
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
@@ -1230,4 +1236,25 @@ footer{
   .footer-grid{grid-template-columns:1fr}
   .hero h1{font-size:36px}
   .pricing-grid{gap:12px}
+}
+
+.nav-pills .nav-link{
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  padding:8px 20px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:background .5s var(--silk),transform .4s var(--silk);
+  text-decoration:none;
+}
+
+.nav-pills .nav-link:hover{
+  color: var(--sky);
+}
+
+.nav-pills .nav-item .active{
+  background-color: var(--sky);
+  color: var(--bg);
 }

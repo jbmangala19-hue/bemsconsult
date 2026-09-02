@@ -1,0 +1,148 @@
+{% extends 'blog.html' %}
+{% load static %}
+
+{% block actu %}
+<style>
+    .couverture-section::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('{{ article.image.url }}');
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px); /* Ajustez l'intensité du flou ici */
+    transform: scale(1.1); /* Évite les bords blancs dus au flou */
+    z-index: -1;
+    }
+</style>
+
+<section class="couverture-section">
+    <div class="mb-5" style="text-align:center; margin-top: 100px;">
+    {% for categorie_article in article.categorie_articles.all|slice:':2' %}
+        <span class="sc-pill">{{ categorie_article.categorie.nom }}</span>
+    {% empty %}
+        <span class="sc-pill">Actualité</span>
+    {% endfor %}
+      <h2 class="section-title">{{ article.titre }}</h2>
+      <p class="section-sub" style="max-width:500px;margin:0 auto;">{{ article.contenu|truncatewords:30 }}</p>
+      <div class="d-flex justify-content-center gap-2 mb-5 mt-4">
+            <button class="btn-hero" onclick="partager()">
+                Partager
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                    <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
+                </svg> 
+            </button>
+            <a class="btn-secondary" href="{% url 'detail_article' article.slug %}"><i class="bi bi-bookmark"></i> Enregistrer</a>
+        </div>
+    </div>
+</section>
+
+<section class="security-section" id="services">
+    <div class="row g-4">
+        <div class="col-lg-8 p-4">
+            <h5 class="card-title">{{ article.titre }}</h5>
+            {% if article.image %}
+                <img src="{{ article.image.url }}" class="card-img-top w-100 h-auto" alt="{{ article.titre }}" style="object-fit: cover;">
+            {% else %}
+                <img src="{% static 'images/flat-lay-business-concept.jpg' %}" class="card-img-top w-100 h-auto" alt="{{ article.titre }}" style="object-fit: cover;">
+            {% endif %}
+            <div class="d-flex justify-content-between gap-2 mb-4 mt-3">
+                <div>
+                    <span class="sec-badge-desc">{{ article.created_at|date:"d F Y" }}</span>
+                </div>
+                <div class="d-flex gap-3">
+                    <div class="d-flex align-items-center gap-1">
+                    <i class="bi bi-eye" style="color: var(--sky);"></i>
+                    <span class="sec-badge-desc">{{ article.lectures.count }}</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-1">
+                    <i class="bi bi-chat" style="color: var(--sky);"></i>
+                    <span class="sec-badge-desc">{{ article.commentaires.count }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <p class="section-sub mt-3 mb-3">{{ article.contenu|safe }}</p>
+                {% for categorie_article in article.categorie_articles.all|slice:':2' %}
+                    <span class="sc-pill">{{ categorie_article.categorie.nom }}</span>
+                {% empty %}
+                    <span class="sc-pill">Actualité</span>
+                {% endfor %}
+            </div>
+            <div class="mb-5">
+                <h5 class="card-title">Commentaires</h5>
+                {% for commentaire in article.commentaires.all %}
+                    <div class="card w-100 mb-3 p-3">
+                        <p class="testi-quote">{{ commentaire.contenu }}</p>
+                        <div class="testi-author">
+                            <div class="testi-avatar">{{ commentaire.auteur.acronyme }}</div>
+                            <div>
+                                <div class="testi-name">{{ commentaire.auteur.user.username }}</div>
+                                <div class="testi-role">{{ commentaire.created_at|date:"d F Y H:i" }}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="section-sub">Aucun commentaire pour le moment.</p>
+                {% endfor %}
+            </div>
+            <div class="mb-4 mt-5">
+                <h5 class="card-title">Ajouter un commentaire</h5>
+                <form method="post" action="{% url 'detail_article' article.slug %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <textarea class="form-control p-4" name="contenu" rows="3" placeholder="Votre commentaire..." required></textarea>
+                    </div>
+                {% if user.is_authenticated %}
+                    <button type="submit" class="btn-hero">Envoyer</button>
+                {% else %}
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn-hero" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Envoyer
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Vous devez être connecté pour ajouter un commentaire. Veuillez vous connecter ou créer un compte.
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'connexion' %}" class="btn-hero">Se connecter</a>
+                                <button type="button" class="btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function partager() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: document.title,
+                        text: "Découvrez cette page !",
+                        url: window.location.href
+                    })
+                    .catch(error => {
+                        console.log("Partage annulé :", error);
+                    });
+                } else {
+                    // Solution de secours si le navigateur ne supporte pas Web Share
+                    navigator.clipboard.writeText(window.location.href);
+                    alert("Lien copié !");
+                }
+            }
+        </script>
+        {% endblock %}

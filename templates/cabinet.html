@@ -18,6 +18,9 @@
 <section class="features-section" id="cabinet">
   <div class="row g-5">
     <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9243.jpg' %}" class="rounded h-100 w-100" alt="histoire">
+    </div>
+    <div class="col-lg-6">
       <div class="section-tag">Notre histoire</div>
       <h2 class="section-title mb-4">Une mosaïque d’expériences au service d’un objectif</h2>
       <p class="section-sub mb-5" style="text-align: justify;">BEMS CONSULT est né en décembre 2017 de la rencontre de parcours individuels et collectifs complémentaires : fiscalité, expertise comptable, ingénierie financière, gouvernance. Le cabinet s’est construit autour d’une conviction : les entreprises congolaises méritent un conseil du niveau des grandes places financières, formulé dans leur contexte réglementaire et économique réel.</p>
@@ -25,9 +28,6 @@
         Prenez rendez-vous
         <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
       </a>
-    </div>
-    <div class="col-lg-6">
-      <img src="{% static 'images/_DSC9243.jpg' %}" class="rounded h-100 w-100" alt="histoire">
     </div>
   </div>
 </section>
@@ -38,14 +38,14 @@
       <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
     </div>
     <h4 class="card-title">Notre vision</h4>
-    <p class="sec-badge-desc">Bâtir une grande référence en conseil, assistance et audit : une source intarissable d’expertise en gestion et finance, adaptée aux réalités pratiques.</p>
+    <p class="sec-badge-desc">Fédérer les start-ups et les PME aussi bien que les grandes entreprises en vous offrant un service spécialisé dans les secteurs qui sont vôtres.</p>
   </div>
   <div class="stat-block">
     <div class="stat-icon">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
     </div>
     <h4 class="card-title">Notre mission</h4>
-    <p class="sec-badge-desc">Accompagner les entreprises, de la survie à la performance : sécuriser d’abord la conformité fiscale et comptable, puis construire les conditions d’une croissance durable.</p>
+    <p class="sec-badge-desc">Optimiser votre coût d’exploitation en mettant à disposition une ingénierie taillée sur mesure. Sécuriser la conformité fiscale et comptable, puis construire les conditions d’une croissance durable.</p>
   </div>
   <div class="stat-block">
     <div class="stat-icon">
@@ -63,8 +63,77 @@
   </div>
 </section>
 
-<section class="security-section" id="security">
+<section class="features-section">
   <div style="text-align:center">
+    <div class="section-tag">Méthode</div>
+    <h2 class="section-title">La méthode ARC</h2>
+    <p class="section-sub">Trois engagements structurent chacune de nos missions : l’Attention portée à votre situation avant toute proposition, <br>des Résultats pilotés selon la gestion axée sur les résultats (GAR), et la Célérité dans le traitement des dossiers. </p>
+    <ul class="nav nav-pills mb-5 mt-4 justify-content-center" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Attention</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Résultats</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Célérité</button>
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="section-tag">Attention</div>
+          <h2 class="card-title">La méthode ARC place l'attention au cœur de notre approche. Nous prenons le temps de comprendre votre situation unique avant de formuler toute proposition.</h2>
+          <p class="section-sub mb-5" style="text-align: justify;">Chaque dossier commence par une écoute réelle : votre secteur, vos contraintes, vos échéances. Nous ne proposons rien avant d’avoir compris votre situation.</p>
+          <a href="https://calendly.com/mars-muka" target="_blank" class="btn-hero mb-5">
+            Prenez rendez-vous
+            <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+          </a>
+        </div>
+        <div class="col-md-6">
+          <img src="{% static 'images/_DSC9331.jpg' %}" class="rounded h-100 w-100" alt="méthode">
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="section-tag">Résultats</div>
+          <h2 class="card-title">Notre engagement envers les résultats est fondamental. Nous utilisons la gestion axée sur les résultats (GAR) pour garantir des performances optimales.</h2>
+          <p class="section-sub mb-5" style="text-align: justify;">Nos missions sont pilotées selon la gestion axée sur les résultats : objectifs définis en début de mission, livrables mesurables et restitués à la fin.</p>
+          <a href="https://calendly.com/mars-muka" target="_blank" class="btn-hero mb-5">
+            Prenez rendez-vous
+            <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+          </a>
+        </div>
+        <div class="col-md-6">
+          <img src="{% static 'images/_DSC9292.jpg' %}" class="rounded h-100 w-100" alt="résultats">
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="section-tag">Célérité</div>
+          <h2 class="card-title">La célérité dans le traitement des dossiers est un pilier de notre méthodologie. Nous nous engageons à fournir des solutions rapides et efficaces.</h2>
+          <p class="section-sub mb-5" style="text-align: justify;">Les échéances fiscales et comptables n’attendent pas. Vos dossiers sont traités dans des délais courts, communiqués dès le premier échange.</p>
+          <a href="https://calendly.com/mars-muka" target="_blank" class="btn-hero mb-5">
+            Prenez rendez-vous
+            <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+          </a> 
+        </div>
+        <div class="col-md-6">
+          <img src="{% static 'images/_DSC9458.jpg' %}" class="rounded h-100 w-100" alt="méthode">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="security-section" id="security">
+  <div>
     <div class="section-tag">L'équipe</div>
     <h2 class="section-title">Des associés qui suivent vos <br> dossiers de près</h2>
     <p class="section-sub">BEMS CONSULT est dirigé par des praticiens de la finance et de la fiscalité, formés à Kinshasa, Paris et Dakar, et <br> membres d’organisations professionnelles internationales. </p>
