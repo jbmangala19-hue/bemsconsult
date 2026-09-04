@@ -11,7 +11,7 @@
             <img src="{% static 'images/logo.png' %}" height="120" width="150" alt="Bems Consult logo">
         </a>
         <div class="text-center mb-4">
-            <div class="section-tag">Abonnez-vous à notre newsletter</div>
+            <div class="section-tag">Inscription</div>
             <h2 class="section-title">Créez votre compte</h2>
         </div>
         <form class="mb-3" method="post" action="{% url 'inscription' %}">
@@ -31,8 +31,14 @@
                 </div>
                 <div class="col-lg-6 mb-2">
                   <label class="section-sub">Mot de passe</label>
-                  <input class="form-control" type="password" name="password" placeholder="Min. 8 caractères" required>
+                  <input class="form-control" type="password" name="password" placeholder="Entrez votre mot de passe" required>
                 </div>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="newsletter" id="newsletter" value="1">
+                <label class="section-sub" for="newsletter">
+                    S'abonner à la newsletter
+                </label>
             </div>
             {% if error %}
                 <p class="sec-badge-desc text-danger mt-3" role="alert">{{ error }}</p>

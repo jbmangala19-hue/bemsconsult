@@ -11,6 +11,7 @@ from .models import (
     Message,
     Temoignage,
     Utilisateur,
+    NewsletterSubscription
 )
 
 class CategorieInline(admin.TabularInline):
@@ -91,3 +92,10 @@ class MailingListAdmin(admin.ModelAdmin):
 class UtilisateurAdmin(admin.ModelAdmin):
     list_display = ("user", "acronyme", "telephone")
     search_fields = ("acronyme", "telephone", "user__username")
+
+
+@admin.register(NewsletterSubscription)
+class NewsletterSubscriptionAdmin(admin.ModelAdmin):
+    list_display = ("email", "date_inscription", "is_active")
+    search_fields = ("email",)
+    list_filter = ("date_inscription", "is_active")

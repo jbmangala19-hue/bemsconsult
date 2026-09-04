@@ -14,4 +14,5 @@ urlpatterns = [
     path('connexion/', views.connexion, name="connexion"),
     path('deconnexion/', views.deconnexion, name="deconnexion"),
     path('inscription/', views.inscription, name="inscription"),
+    path('newsletter_subscription/', views.newsletter_subscription, name="newsletter_subscription"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

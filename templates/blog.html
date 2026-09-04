@@ -147,34 +147,23 @@
 </div>
 </section>
 
-<section class="features-section">
+<section class="features-section" id="newsletter">
   <div class="row g-5">
     <div class="col-lg-6">
       <img src="{% static 'images/_DSC9337.jpg' %}" loading="lazy" class="rounded h-100 w-100" alt="histoire">
     </div>
     <div class="col-lg-6">
         <div class="section-tag">Abonnement</div>
-        <h2 class="section-title mb-4">Créez un compte pour vous abonner à notre newsletter</h2>
-        <form method="post" action="{% url 'inscription' %}">
+        <h2 class="section-title mb-4">Abonnez-vous à notre newsletter</h2>
+        <p class="section-sub">Restez informé des dernières actualités et offres de notre cabinet.</p>
+        <form class="mb-3" method="post" action="{% url 'newsletter_subscription' %}">
             {% csrf_token %}
-            <div class="row g-2 mb-4">
-                <div class="col-lg-6 mb-2">
-                  <label class="section-sub">Nom complet</label>
-                  <input class="form-control" type="text" name="nom" placeholder="Entrez votre nom complet" required>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <label class="section-sub">Téléphone (facultatif)</label>
-                  <input class="form-control" type="text" name="tel" placeholder="Entrez votre numéro">
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <label class="section-sub">Adresse e-mail</label>
-                  <input class="form-control" type="email" name="email" placeholder="exemple@gmail.com" required>
-                </div>
-                <div class="col-lg-6 mb-2">
-                  <label class="section-sub">Mot de passe</label>
-                  <input class="form-control" type="password" name="password" placeholder="Min. 8 caractères" required>
-                </div>
+            <div class="mb-3">
+              <input class="form-control" type="email" name="email" placeholder="Adresse e-mail" required>
             </div>
+            {% if message %}
+              <p class="section-sub text-success mb-3">{{message}}</p>
+            {% endif %}
             <button type="submit" class="btn-hero">
               S'abonner
               <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+import uuid
 
 
 class Acteur(models.Model):
@@ -145,6 +146,20 @@ class MailingList(models.Model):
     class Meta:
         verbose_name = "Liste de diffusion"
         verbose_name_plural = "Listes de diffusion"
+
+    def __str__(self):
+        return self.email
+    
+
+class NewsletterSubscription(models.Model):
+    email = models.EmailField(unique=True)
+    unsubscribe_token = models.UUIDField(default=uuid.uuid4, unique=True)
+    is_active = models.BooleanField(default=True)
+    date_inscription = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Abonné à la newsletter"
+        verbose_name_plural = "Abonnés à la newsletter"
 
     def __str__(self):
         return self.email

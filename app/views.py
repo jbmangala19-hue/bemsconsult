@@ -6,13 +6,19 @@ from django.db.models import Q
 from django.shortcuts import redirect, render
 from urllib.parse import urlencode
 
-from .models import Acteur, Article, Categorie, Message, Utilisateur, Temoignage
+from .models import Acteur, Article, Categorie, Message, NewsletterSubscription, Utilisateur, Temoignage
 
 
 def home(request):
     articles = Article.objects.select_related('auteur').prefetch_related('categorie_articles__categorie').order_by('-created_at')[:3]
     temoignages = Temoignage.objects.select_related('acteur').order_by('-created_at')[:8]
-    return render(request, 'index.html', {'articles': articles, 'temoignages': temoignages})
+
+    try:
+        message = request.GET.get('message', False)
+    except:
+        message = False
+
+    return render(request, 'index.html', {'articles': articles, 'temoignages': temoignages, 'message': message})
 
 
 def blog(request):
@@ -163,6 +169,7 @@ def inscription(request):
         email = request.POST.get('email', '').strip()
         password = request.POST.get('password', '')
         telephone = request.POST.get('tel', '').strip()
+        newsletter = request.POST.get('newsletter', '') == '1'
 
         if User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists():
             return render(request, 'inscription.html', {'error': 'Un compte avec cette adresse e-mail existe déjà.'})
@@ -181,7 +188,29 @@ def inscription(request):
         acronyme = first_name[0].upper() + last_name[0].upper() if first_name and last_name else 'BC'
         Utilisateur.objects.create(user=user, acronyme=acronyme, telephone=telephone)
 
+        if newsletter:
+            NewsletterSubscription.objects.create(email=email)
+
         login(request, user)
         return redirect('home')
 
     return render(request, 'inscription.html')
+
+
+def newsletter_subscription(request):
+        
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+        if not email:
+            message = "Veuillez fournir une adresse e-mail valide."
+            return redirect(f'/?message={message}') 
+
+        subscription, created = NewsletterSubscription.objects.get_or_create(email=email)
+        if not created:
+            message = "Vous êtes déjà abonné à notre newsletter."
+        else:
+            message = "Merci pour votre abonnement à notre newsletter !"
+
+        return redirect(f'/?message={message}')
+    else:
+        return redirect('/')
