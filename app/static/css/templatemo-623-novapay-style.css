@@ -6,7 +6,7 @@
   Designed by TemplateMo  (https://templatemo.com)
 
   Color system   : Dark slate base (#0F1319) with sky-blue accent (#4A9EE8)
-  Typography     : Outfit for display, DM Sans for body
+  Typography     : New Black Typeface for display, DM Sans for body
   Easing         : --silk cubic-bezier(0.16,1,0.3,1) for premium motion
   Max-width      : 1280px content frame, edge-to-edge backgrounds
   Layout         : Responsive grid breakpoints at 900px and 600px
@@ -35,11 +35,28 @@
   --silk-fast:cubic-bezier(0.25,1,0.4,1);
   --max-w:1280px;
 }
+
+@font-face {
+    font-family: "New Black Typeface";
+    src: url("../font/NewBlackTypeface-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "New Black Typeface";
+    src: url("../font/NewBlackTypeface-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 html{scroll-behavior:smooth}
 body{
   background:var(--bg);
   color:var(--text);
-  font-family:'Regular',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:16px;
   line-height:1.6;
   overflow-x:hidden;
@@ -108,7 +125,7 @@ nav{
 nav > *{position:relative}
 nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transparent;transform:translateY(0)}
 .nav-logo{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:22px;
   font-weight:800;
   color:var(--bg2);
@@ -224,7 +241,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 }
 .mobile-menu.open{opacity:1;pointer-events:all}
 .mobile-menu a{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:20px;
   font-weight:600;
   color:var(--text2);
@@ -249,8 +266,6 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   padding-bottom:0px;
   padding-left:max(48px, calc((100vw - var(--max-w)) / 2));
   padding-right:max(48px, calc((100vw - var(--max-w)) / 2));
-  display:grid;
-  grid-template-columns:1fr 1fr;
   gap:60px;
   align-items:center;
   position:relative;
@@ -262,8 +277,8 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   position:absolute;
   top:0;left:0;
   width:100%;height:100%;
-  background-image:url('../images/video-hero-3.gif');
-  mask-image:radial-gradient(ellipse 80% 70% at 20% 20%,#000 0%,transparent 90%);
+  background-image:url('../images/video-hero.gif');
+  mask-image:radial-gradient(ellipse 100% 70% at 70% 20%,#000 0%,transparent 90%);
   pointer-events:none;
   z-index:0;
 }
@@ -294,7 +309,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 .badge-dot{width:6px;height:6px;background:var(--sky);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .hero h1{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:clamp(40px,5vw,68px);
   font-weight:800;
   line-height:1.05;
@@ -307,13 +322,14 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   font-size:17px;
   color:var(--bg2);
   line-height:1.7;
-  max-width:460px;
+  max-width:600px;
+  margin: 0 auto;
   margin-bottom:36px;
   font-weight:300;
 }
 .hero-btns{
   display:flex;
-  align-items:center;
+  justify-content: center;
   gap:12px;
   flex-wrap:wrap;
   margin-bottom:48px;
@@ -373,7 +389,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 .btn-secondary:hover{border-color:var(--sky);color:var(--sky)}
 .hero-trust{
   display:flex;
-  align-items:center;
+  justify-content: center;
   gap:12px;
   margin-bottom:90px;
 }
@@ -398,7 +414,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 /* HERO DASHBOARD MOCKUP */
 .hero-visual{
   position:relative;
-  margin-bottom: -17%;
+  margin-bottom: -20%;
 }
 .dash-card{
   border:1px solid transparent;
@@ -427,7 +443,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   padding:12px 14px;
 }
 .dash-stat-label{font-size:10px;color:var(--text3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
-.dash-stat-val{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;color:var(--text)}
+.dash-stat-val{font-family:'New Black Typeface',sans-serif;font-size:18px;font-weight:700;color:var(--text)}
 .dash-stat-change{font-size:10px;margin-top:2px}
 .chart-wrap{
   background:var(--bg3);
@@ -469,7 +485,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 }
 .float-badge:nth-child(2){animation-delay:1.5s}
 .float-badge-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
-.float-badge-info .val{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
+.float-badge-info .val{font-family:'New Black Typeface',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
 .float-badge-info .lbl{font-size:10px;color:var(--text3)}
 .fb-left{left:-60px;top:30%}
 .fb-right{right:-50px;bottom:25%}
@@ -508,7 +524,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 }
 .logo-item{
   padding:0 40px;
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:15px;
   font-weight:700;
   color:var(--text3);
@@ -569,7 +585,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 }
 .stat-icon svg{width:18px;height:18px;fill:none;stroke:var(--sky);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .stat-num{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:clamp(28px,3vw,42px);
   font-weight:800;
   color:var(--text);
@@ -605,7 +621,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   margin-bottom:16px;
 }
 .section-title{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:clamp(32px,4vw,48px);
   font-weight:800;
   letter-spacing:-.03em;
@@ -614,7 +630,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 }
 
 .card-title{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-weight:800;
   letter-spacing:-.03em;
   line-height:1.1;
@@ -667,7 +683,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 .sticky-card.active .sticky-card-icon{background:rgba(74,158,232,.18)}
 .sticky-card-icon svg{width:20px;height:20px;fill:none;stroke:var(--sky);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .sticky-card h3{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:18px;
   font-weight:700;
   margin-bottom:8px;
@@ -726,7 +742,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   padding:14px;
 }
 .pm-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.pm-val{font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;color:var(--text)}
+.pm-val{font-family:'New Black Typeface',sans-serif;font-size:20px;font-weight:700;color:var(--text)}
 .pm-change{font-size:11px;margin-top:3px}
 .pm-bar-wrap{background:var(--bg);border-radius:6px;height:6px;margin-top:8px;overflow:hidden}
 .pm-bar{height:100%;border-radius:6px;background:var(--sky)}
@@ -804,7 +820,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   display:flex;align-items:center;justify-content:space-between;
   border-bottom:1px solid var(--border);
 }
-.dp-title{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
+.dp-title{font-family:'New Black Typeface',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
 .dp-live{
   display:flex;align-items:center;gap:6px;
   font-size:11px;color:var(--green);font-weight:500;
@@ -816,7 +832,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   border-radius:12px;padding:20px;
 }
 .dp-chart-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
-.dp-chart-val{font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;color:var(--text)}
+.dp-chart-val{font-family:'New Black Typeface',sans-serif;font-size:28px;font-weight:800;color:var(--text)}
 .dp-chart-change{font-size:12px;color:var(--green);margin-top:4px}
 .dp-chart-period{display:flex;gap:4px}
 .dp-period-btn{
@@ -832,7 +848,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   border-radius:12px;padding:16px;
 }
 .dp-side-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
-.dp-side-val{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:var(--text)}
+.dp-side-val{font-family:'New Black Typeface',sans-serif;font-size:22px;font-weight:700;color:var(--text)}
 .dp-side-change{font-size:11px;margin-top:4px}
 .dp-allocations{margin-top:12px;display:flex;flex-direction:column;gap:8px}
 .dp-alloc-row{display:flex;align-items:center;gap:10px}
@@ -895,7 +911,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 }
 .price-plan{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);margin-bottom:16px}
 .price-amount{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:42px;font-weight:800;
   color:var(--text);
   letter-spacing:-.03em;
@@ -1041,7 +1057,7 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
 .app-store-btn svg{fill:var(--text);flex-shrink:0}
 .app-store-btn-info{display:flex;flex-direction:column}
 .app-store-btn-sub{font-size:10px;color:var(--text3);letter-spacing:.02em}
-.app-store-btn-name{font-size:16px;font-weight:700;color:var(--text);font-family:'Outfit',sans-serif;letter-spacing:-.01em}
+.app-store-btn-name{font-size:16px;font-weight:700;color:var(--text);font-family:'New Black Typeface',sans-serif;letter-spacing:-.01em}
 .phone-mockup{
   width:220px;
   margin:0 auto;
@@ -1066,13 +1082,13 @@ nav.scrolled{background: #0B1649;backdrop-filter:blur(20px);border-color:transpa
   display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
 }
 .phone-greeting{font-size:12px;color:var(--text3)}
-.phone-name{font-size:14px;font-weight:700;color:var(--text);font-family:'Outfit',sans-serif}
+.phone-name{font-size:14px;font-weight:700;color:var(--text);font-family:'New Black Typeface',sans-serif}
 .phone-balance{
   background:var(--bg3);border:1px solid var(--border);
   border-radius:12px;padding:14px;
 }
 .phone-bal-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
-.phone-bal-val{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-top:4px}
+.phone-bal-val{font-family:'New Black Typeface',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-top:4px}
 .phone-bal-change{font-size:10px;color:var(--green);margin-top:2px}
 .phone-quick{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .phone-quick-btn{
@@ -1162,7 +1178,7 @@ footer{
 }
 .footer-brand{max-width:300px}
 .footer-logo{
-  font-family:'Outfit',sans-serif;
+  font-family:'New Black Typeface',sans-serif;
   font-size:20px;font-weight:800;
   color:var(--text);margin-bottom:10px;
   display:flex;align-items:center;gap:8px;
