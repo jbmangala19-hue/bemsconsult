@@ -1,0 +1,22 @@
+{% extends 'admins/account_base.html' %}
+{% block account_content %}
+<div class="admin-hero-card mb-4"><div class="d-flex align-items-center gap-3">
+{% if profile.image %}<img src="{{ profile.image.url }}" alt="Ma photo" class="rounded-circle" width="80" height="80" style="object-fit:cover;">{% else %}<div class="testi-avatar" style="width:64px;height:64px;">{{ profile.acronyme|default:profile_user.username|slice:':2'|upper }}</div>{% endif %}
+<div><span class="section-tag">Mon profil</span><h2 class="section-title mb-1">{{ profile_user.get_full_name|default:profile_user.username }}</h2><p class="section-sub mb-0">{{ profile_user.email }} · Inscrit le {{ profile_user.date_joined|date:'d/m/Y' }}</p></div></div></div>
+<div class="row g-3 mb-4">{% for label,value in stats.items %}<div class="col-6 col-md-4 col-xl-2"><div class="admin-panel-card"><div class="text-muted small">{{ label|capfirst }}</div><strong class="fs-3">{{ value }}</strong></div></div>{% endfor %}</div>
+<div class="row g-4 mb-4"><div class="col-lg-7"><div class="admin-panel-card"><h3 class="h5 mb-3">Mes informations personnelles</h3><form method="post" action="{% url 'profil' %}" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="action" value="profile">{% include 'admins/account_fields.html' with account_form=form %}<button class="btn btn-hero" type="submit">Enregistrer mes informations</button></form></div></div>
+<div class="col-lg-5"><div class="admin-panel-card"><h3 class="h5 mb-3">Changer mon mot de passe</h3><form method="post" action="{% url 'profil' %}">{% csrf_token %}<input type="hidden" name="action" value="password">{% include 'admins/account_fields.html' with account_form=password_form %}<button class="btn btn-hero" type="submit">Modifier mon mot de passe</button></form></div></div></div>
+<h3 class="h4 mb-3">Mon activité et mes contributions</h3>
+<div class="nav nav-tabs mb-4" aria-label="Mes contributions">{% for key,value in stats.items %}<a class="nav-link {% if tab == key %}active{% endif %}" href="?tab={{ key }}">{{ key|capfirst }} ({{ value }})</a>{% endfor %}</div>
+{% if tab == 'actions' %}{% include 'admins/action_list.html' %}{% else %}
+<div class="admin-panel-card"><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Contribution</th><th>Date</th><th>Détails</th></tr></thead><tbody>
+{% for item in page_obj %}<tr>
+{% if tab == 'articles' %}<td>{{ item.titre }}</td><td>{{ item.created_at|date:'d/m/Y H:i' }}</td><td><a href="{% url 'detail_article' item.slug %}" class="btn-action-icon" aria-label="Voir {{ item.titre }}"><i class="bi bi-eye"></i></a></td>
+{% elif tab == 'mails' %}<td>{{ item.titre|default:item.email }}<div class="small text-muted">{{ item.email }}</div></td><td>{{ item.date|date:'d/m/Y H:i' }}</td><td><a href="{% url 'mails' %}?detail={{ item.pk }}" class="btn-action-icon" aria-label="Voir le mail"><i class="bi bi-eye"></i></a></td>
+{% elif tab == 'notifications' %}<td>{{ item.titre }}</td><td>{{ item.created_at|date:'d/m/Y H:i' }}</td><td><a href="{% url 'notifications' %}?detail={{ item.pk }}" class="btn-action-icon" aria-label="Voir la notification"><i class="bi bi-eye"></i></a></td>
+{% elif tab == 'commentaires' %}<td><strong>{{ item.article.titre }}</strong><div class="detail-text">{{ item.contenu }}</div></td><td>{{ item.created_at|date:'d/m/Y H:i' }}</td><td><a href="{% url 'detail_article' item.article.slug %}" class="btn-action-icon" aria-label="Voir l’article"><i class="bi bi-eye"></i></a></td>
+{% elif tab == 'lectures' %}<td>{{ item.article.titre }}</td><td>{{ item.date_lecture|date:'d/m/Y H:i' }}</td><td><a href="{% url 'detail_article' item.article.slug %}" class="btn-action-icon" aria-label="Voir l’article"><i class="bi bi-eye"></i></a></td>{% endif %}
+</tr>{% empty %}<tr><td colspan="3"><div class="empty-state-box">Aucune contribution à afficher.</div></td></tr>{% endfor %}
+</tbody></table></div></div>{% include 'admins/account_pagination.html' %}
+{% endif %}
+{% endblock %}

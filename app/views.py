@@ -2,11 +2,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.views.decorators.http import require_http_methods
 from django.db.models import Q
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from urllib.parse import urlencode
+from django.urls import reverse
 
-from .models import Acteur, Article, Categorie, Message, NewsletterSubscription, Utilisateur, Temoignage
+from .models import Acteur, Article, Categorie, Message, NewsletterSubscription, Notification, Utilisateur, Temoignage
 
 
 def home(request):
@@ -18,7 +23,7 @@ def home(request):
     except:
         message = False
 
-    return render(request, 'index.html', {'articles': articles, 'temoignages': temoignages, 'message': message})
+    return render(request, 'users/index.html', {'articles': articles, 'temoignages': temoignages, 'message': message})
 
 
 def blog(request):
@@ -42,7 +47,7 @@ def blog(request):
     pagination_params = request.GET.copy()
     pagination_params.pop('page', None)
     categories = Categorie.objects.order_by('nom')
-    return render(request, 'blog.html', {
+    return render(request, 'users/blog.html', {
         'blog_active': 'active',
         'articles': page_obj.object_list,
         'page_obj': page_obj,
@@ -57,34 +62,61 @@ def blog(request):
 def detail_article(request, article_slug):
 
     article = Article.objects.select_related('auteur').prefetch_related('categorie_articles__categorie').get(slug=article_slug)
-
-    if request.method == 'POST':
-        
-        contenu = request.POST.get('contenu', '').strip()
-        if contenu:
-            utilisateur = Utilisateur.objects.get(user=request.user)
-            article.commentaires.create(auteur=utilisateur, contenu=contenu)
-            return redirect('detail_article', article_slug=article_slug)
-        else:
-            messages.error(request, "Le contenu du commentaire ne peut pas être vide.")
+    date_notification = timezone.localtime().strftime('%d/%m/%Y à %H:%M')
 
     if request.user.is_authenticated:
-        utilisateur = Utilisateur.objects.get(user=request.user)
-        if not article.lectures.filter(utilisateur=utilisateur).exists():
-            article.lectures.create(utilisateur=utilisateur)
+        utilisateur = Utilisateur.objects.filter(user=request.user).first()
+        if not utilisateur:
+            acronyme = (request.user.first_name[:1] + request.user.last_name[:1]).upper() if request.user.first_name and request.user.last_name else (request.user.username[:2]).upper()
+            utilisateur = Utilisateur.objects.create(
+                user=request.user,
+                acronyme=acronyme or 'US',
+                telephone='',
+            )
+    else:
+        utilisateur = None
+
+    if request.method == 'POST':
+
+        contenu = request.POST.get('contenu', '').strip()
+        if contenu:
+            if utilisateur:
+                commentaire = article.commentaires.create(auteur=utilisateur, contenu=contenu)
+                Notification.objects.create(
+                    auteur=utilisateur,
+                    type='Commentaire',
+                    titre=f'Nouveau commentaire sur l\'article "{article.titre}"',
+                    contenu=f"{utilisateur.user.get_full_name() or utilisateur.user.username} a commenté l'article \"{article.titre}\", ce {date_notification}.",
+                )
+            return redirect('detail_article', article_slug=article_slug)
+
+    if request.user.is_authenticated:
+        if utilisateur:
+            if not article.lectures.filter(utilisateur=utilisateur).exists():
+                article.lectures.create(utilisateur=utilisateur)
+                Notification.objects.create(
+                    auteur=utilisateur,
+                    type='Lecture',
+                    titre=f'Nouvelle lecture sur l\'article "{article.id}"',
+                    contenu=f"{utilisateur.user.get_full_name() or utilisateur.user.username} a lu l'article \"{article.titre}\", ce {date_notification}.",
+                )
 
     else:
-        article.lectures.create(utilisateur=None)
-
+        if not article.lectures.filter(utilisateur=None).exists():
+            article.lectures.create(utilisateur=None)
+            Notification.objects.create(
+                auteur=None,
+                type='Lecture',
+                titre=f'Nouvelle lecture sur l\'article "{article.id}"',
+                contenu=f'Un visiteur a lu l\'article "{article.titre}", ce {date_notification}.',
+            )
 
     categories = Categorie.objects.order_by('nom')
     articles = Article.objects.select_related('auteur').prefetch_related('categorie_articles__categorie').order_by('-created_at')
     recent_articles = articles[:3]
-    return render(request, 'detail_article.html', {'article': article, 'recent_articles': recent_articles, 'blog_active': 'active', 'articles': articles, 'categories': categories})
-
-
+    return render(request, 'users/detail_article.html', {'article': article, 'recent_articles': recent_articles, 'blog_active': 'active', 'articles': articles, 'categories': categories})
 def cabinet(request):
-    return render(request, 'cabinet.html', {'cabinet_active': 'active'})
+    return render(request, 'users/cabinet.html', {'cabinet_active': 'active'})
 
 
 def contact(request):
@@ -125,17 +157,15 @@ def contact(request):
             message=False
 
     
-    return render(request, 'contact.html', {'contact_active': 'active', 'message': message})
+    return render(request, 'users/contact.html', {'contact_active': 'active', 'message': message})
 
 
 def services(request):
     temoignages = Temoignage.objects.select_related('acteur').order_by('-created_at')[:8]
-    return render(request, 'services.html', {'services_active': 'active', 'temoignages': temoignages})
+    return render(request, 'users/services.html', {'services_active': 'active', 'temoignages': temoignages})
 
 
 def connexion(request):
-    if request.user.is_authenticated:
-        return redirect('home')
 
     if request.method == 'POST':
         email = request.POST.get('email', '').strip()
@@ -148,11 +178,16 @@ def connexion(request):
         verification = authenticate(request, username=user.username, password=password)
         if verification:
             login(request, user)
-            return redirect('home')
 
-        return render(request, 'login.html', {'error': 'Identifiants incorrects. Veuillez réessayer.'})
+            if user.is_staff:
+                return redirect('/administration')
+            else:
+                return redirect('home')
 
-    return render(request, 'login.html')
+        
+        return render(request, 'users/login.html', {'error': 'Identifiants incorrects. Veuillez réessayer.'})
+
+    return render(request, 'users/login.html')
 
 
 def deconnexion(request):
@@ -172,7 +207,7 @@ def inscription(request):
         newsletter = request.POST.get('newsletter', '') == '1'
 
         if User.objects.filter(email=email).exists() or User.objects.filter(username=email).exists():
-            return render(request, 'inscription.html', {'error': 'Un compte avec cette adresse e-mail existe déjà.'})
+            return render(request, 'users/inscription.html', {'error': 'Un compte avec cette adresse e-mail existe déjà.'})
 
         parts = nom.split()
         first_name = parts[0] if parts else ''
@@ -194,7 +229,7 @@ def inscription(request):
         login(request, user)
         return redirect('home')
 
-    return render(request, 'inscription.html')
+    return render(request, 'users/inscription.html')
 
 
 def newsletter_subscription(request):
@@ -214,3 +249,23 @@ def newsletter_subscription(request):
         return redirect(f'/?message={message}')
     else:
         return redirect('/')
+
+
+@require_http_methods(['GET', 'POST'])
+def desabonnement(request):
+    context = {'email': '', 'result': None}
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+        context['email'] = email
+        try:
+            validate_email(email)
+        except ValidationError:
+            context['error'] = 'Veuillez saisir une adresse e-mail valide.'
+        else:
+            subscriptions = NewsletterSubscription.objects.filter(email__iexact=email)
+            if not subscriptions.exists():
+                context['error'] = "Cette adresse e-mail n'est pas inscrite à notre newsletter."
+            else:
+                subscriptions.update(is_active=False)
+                context['result'] = True
+    return render(request, 'users/desabonnement.html', context)

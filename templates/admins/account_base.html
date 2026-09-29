@@ -1,0 +1,10 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/account_base.css' %}">
+<div class="admin-dashboard account-page">
+  {% for message in messages %}<div
+    class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}" role="status">{{
+    message }}</div>{% endfor %}
+  {% block account_content %}{% endblock %}
+</div>
+{% endblock %}

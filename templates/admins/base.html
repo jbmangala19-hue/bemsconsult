@@ -1,0 +1,265 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bems Consult — Cabinet de conseil en gestion et finance, Kinshasa</title>
+<meta name="description" content="Bems Consult est un cabinet de conseil en gestion et finance basé à Kinshasa. Nous offrons des solutions innovantes pour optimiser la performance de votre entreprise.">
+<meta property="og:title" content="Bems Consult — Cabinet de conseil en gestion et finance, Kinshasa">
+<meta property="og:description" content="Bems Consult est un cabinet de conseil en gestion et finance basé à Kinshasa. Nous offrons des solutions innovantes pour optimiser la performance de votre entreprise.">
+<meta property="og:image" content="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icon.png' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="{% static 'css/templatemo-623-novapay-style.css' %}">
+
+<style>
+    .notification{
+        text-decoration: none;
+        width: 100%;
+        display: block;
+    }
+
+    .notification:hover{
+        background-color: var(--bg2);
+    }
+</style>
+
+</head>
+<body>
+
+<div class="navbar bg-body-tertiary fixed-top">
+  <div class="container-fluid px-4 py-2">
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <i class="bi bi-list"></i>
+    </button>
+    <div class="d-flex gap-4">
+
+        <div class="dropdown mt-2">
+            <button class="social-btn" aria-label="Notifications" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bell"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ notifications|length }}</span>
+            </button>
+            <div class="dropdown-menu" style="max-width: 300px; max-height: 400px; overflow-x: auto;">
+                <div class="dropdown-header fw-bold text-body">{{ notifications|length }} Notification{% if notifications|length > 1 %}s{% endif %}</div>
+                {% for notification in notifications %}
+                    <li class="w-100">
+                        <a class="notification px-2" href="{% url 'notifications' %}?detail={{ notification.pk }}" style="min-width: 250px;">
+                            <div class="testi-author">
+                                <div class="testi-avatar">
+                                    {% if notification.auteur and notification.auteur.image %}
+                                        <img src="{{ notification.auteur.image.url }}" loading="lazy" class="rounded h-100 w-100" alt="{{ notification.auteur.user.username }}">
+                                    {% else %}
+                                        <i class="bi bi-eye m-4 text-info h4"></i>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div class="section-tag mb-0">{{ notification.type }}</div>
+                                    <div class="testi-name">{{ notification.titre|truncatechars:55 }}</div>
+                                    <div class="testi-role">{{ notification.created_at|date:"d F Y" }}</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% if not forloop.last %} 
+                    <hr class="dropdown-divider">
+                    {% endif %}
+                {% empty %}
+                    <div class="dropdown-item text-muted text-center py-3">Aucune notification.</div>
+                {% endfor %}
+                <div class="dropdown-footer fw-bold mt-3 mb-2 text-center">
+                    <a class="nav-link" href="{% url 'notifications' %}">Voir tout</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dropdown mt-2">
+            <button class="social-btn" aria-label="Messages" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-envelope"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{ messages_list|length }}</span>
+            </button>
+            <div class="dropdown-menu" style="max-width: 300px; max-height: 400px; overflow-x: auto;">
+                <div class="dropdown-header fw-bold text-body">{{ messages_list|length }} Message{% if messages_list|length > 1 %}s{% endif %}</div>
+                {% for message in messages_list %}
+                    <li class="w-100">
+                        <a class="notification px-2" href="{% url 'messages' %}?detail={{ message.pk }}" style="min-width: 250px;">
+                            <div class="testi-author">
+                                <div class="testi-avatar">
+                                    {% if message.acteur and message.acteur.image %}
+                                        <img src="{{ message.acteur.image.url }}" loading="lazy" class="rounded h-100 w-100" alt="{{ message.acteur.designation }}">
+                                    {% else %}
+                                        {{ message.acteur.acronyme|default:'NA' }}
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <div class="testi-name">{{ message.sujet|truncatechars:50 }}</div>
+                                    <div class="testi-role">{{ message.created_at|date:"d M Y" }}</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    {% if not forloop.last %} 
+                    <hr class="dropdown-divider">
+                    {% endif %}
+                {% empty %}
+                    <li><span class="dropdown-item text-muted text-center">Aucun message.</span></li>
+                {% endfor %}
+                <div class="dropdown-footer fw-bold mt-3 mb-2 text-center">
+                    <a class="nav-link" href="{% url 'messages' %}">Voir tout</a>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-light d-flex gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="min-width: 200px; text-align: left;">
+                <div class="testi-avatar">
+                    {% if user.utilisateur and user.utilisateur.image %}
+                        <img src="{{ user.utilisateur.image.url }}" loading="lazy" class="rounded h-100 w-100" alt="{{ user.get_full_name|default:user.username }}">
+                    {% else %}
+                        <div class="testi-avatar d-flex align-items-center justify-content-center bg-light text-dark fw-bold" style="width: 35px; height: 35px; border-radius: 50%; font-size: 12px;">
+                            {{ user.first_name|slice:':1'|upper|default:user.username|slice:':1'|upper }}{{ user.last_name|slice:':1'|upper|default:user.username|slice:'1:2'|upper }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div>
+                    <div class="testi-name">{{ user.get_full_name|default:user.username }}</div>
+                    <div class="testi-role">Administrateur</div>
+                </div>
+                
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item d-flex gap-4" href="{% url 'profil' %}"><i class="bi bi-person"></i><span>Profil</span></a></li>
+                <li><a class="dropdown-item d-flex gap-4" href="{% url 'parametres' %}"><i class="bi bi-gear"></i><span>Paramètres</span></a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item d-flex gap-4" href="{% url 'deconnexion' %}"><i class="bi bi-box-arrow-right"></i><span>Déconnexion</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style="max-width: 350px;">
+      <div class="offcanvas-header bg-light py-0 px-3 mb-3">
+        <a href="">
+            <img src="{% static 'images/Logo-2.png' %}" class="offcanvas-title" id="offcanvasNavbarLabel" height="120" width="150" alt="Bems Consult logo">
+        </a>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 p-2">
+            <li class="nav-item">
+                <a class="nav-link d-flex gap-4 {{accueil_active}}" aria-current="page" href="/administration">
+                    <i class="bi bi-back"></i>
+                    <span>Accueil</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex gap-4 {{articles_active}}" aria-current="page" href="/administration/articles">
+                    <i class="bi bi-file-text"></i>
+                    <span>Articles</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link d-flex justify-content-between" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="d-flex gap-4">
+                        <i class="bi bi-people"></i>
+                        <span>Acteurs</span>
+                    </div>
+                    <i class="bi bi-caret-down-fill"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item d-flex gap-4" href="/administration/acteurs/utilisateurs/"><i class="bi bi-person"></i><span>Utilisateurs</span></a></li>
+                    <li><a class="dropdown-item d-flex gap-4" href="{% url 'abonnes' %}"><i class="bi bi-person-check"></i><span>Abonnés</span></a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item d-flex gap-4" href="{% url 'acteurs' %}"><i class="bi bi-person-lines-fill"></i><span>Acteurs</span></a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link d-flex justify-content-between" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="d-flex gap-4">
+                        <i class="bi bi-diagram-3"></i>
+                        <span>Associés</span>
+                    </div>
+                    <i class="bi bi-caret-down-fill"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item d-flex gap-4" href="#"><i class="bi bi-building-check"></i><span>Clients</span></a></li>
+                    <li><a class="dropdown-item d-flex gap-4" href="#"><i class="bi bi-buildings"></i><span>Partenaires</span></a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item d-flex gap-4" href="#"><i class="bi bi-link-45deg"></i><span>Affiliations</span></a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link d-flex justify-content-between" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="d-flex gap-4">
+                        <i class="bi bi-bell"></i>
+                        <span>Notifications</span>
+                    </div>
+                    <i class="bi bi-caret-down-fill"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item d-flex gap-4" href="{% url 'messages' %}"><i class="bi bi-chat-left-text"></i><span>Messages</span></a></li>
+                    <li><a class="dropdown-item d-flex gap-4" href="{% url 'notifications' %}"><i class="bi bi-activity"></i><span>Activités</span></a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex gap-4" aria-current="page" href="{% url 'mails' %}">
+                    <i class="bi bi-envelope"></i>
+                    <span>Mails</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex gap-4" aria-current="page" href="{% url 'temoignages' %}">
+                    <i class="bi bi-chat-quote"></i>
+                    <span>Témoignages</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex gap-4" aria-current="page" href="{% url 'parametres' %}">
+                    <i class="bi bi-gear"></i>
+                    <span>Paramètres</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link d-flex gap-4" aria-current="page" href="#">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+        <form class="d-flex mt-3 mb-5" role="search">
+          <input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Search"/>
+          <button class="btn-hero" type="submit"><i class="bi bi-search"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<footer style="padding:24px max(48px, calc((100vw - var(--max-w)) / 2));border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+  <div style="font-size:13px;color:var(--text3)">© 2026 Bems Consult. Tout droit réservés. Développé par <a href="https://www.vinx.app" style="color:var(--sky);text-decoration:none;transition:opacity .3s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Vinx</a>.</div>
+  <div style="display:flex;align-items:center;gap:20px">
+    <a href="#" class="footer-link">Mentions légales</a>
+    <div style="width:1px;height:14px;background:var(--border)"></div>
+    <div style="display:flex;gap:8px">
+      <a href="https://x.com/bems_consult" target="_blank" class="social-btn" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg></a>
+      <a href="https://cd.linkedin.com/company/bems-consult" target="_blank" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="https://www.instagram.com/bems_consult_sas/" target="_blank" class="social-btn" aria-label="GitHub"><i class="bi bi-instagram"></i></a>
+      <a href="https://web.facebook.com/bems.consult0#" target="_blank" class="social-btn" aria-label="GitHub"><i class="bi bi-facebook"></i></a>
+      <a href="mailto:contact@bemsconsult.com" target="_blank" class="social-btn" aria-label="GitHub"><i class="bi bi-envelope"></i></a>
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="{% static 'js/templatemo-623-novapay-script.js' %}"></script>
+</body>
+</html>

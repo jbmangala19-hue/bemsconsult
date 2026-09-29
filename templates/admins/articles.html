@@ -1,0 +1,823 @@
+{% extends 'admins/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+
+<div class="admin-dashboard">
+
+  <!-- ALERTES FLASH -->
+  {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show d-flex align-items-center gap-2" role="alert" style="border-radius: 14px; border: 1px solid var(--border);">
+          <i class="bi {% if message.tags == 'success' %}bi-check-circle-fill text-success{% elif message.tags == 'warning' or message.tags == 'error' %}bi-exclamation-triangle-fill text-danger{% else %}bi-info-circle-fill text-info{% endif %} fs-5"></i>
+          <div class="flex-grow-1" style="font-size: 14px; font-weight: 500;">{{ message }}</div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- BIENVENUE & BARRE D'ACTIONS -->
+  <div class="admin-hero-card mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="section-tag mb-0">Administration &bull; Blog</span>
+          <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
+            Gestion du contenu
+          </span>
+        </div>
+        <h2 class="section-title mb-2" style="font-size: clamp(24px, 3vw, 36px);">Publications & Articles</h2>
+        <p class="section-sub mb-0" style="font-size: 15px;">
+          Gérez vos analyses réglementaires, actualités fiscales, articles IFRS et actualités du cabinet.
+        </p>
+      </div>
+
+      <!-- Bouton Ajouter une publication -->
+      <div class="d-flex flex-wrap gap-2">
+        <button type="button" class="btn-hero" data-bs-toggle="modal" data-bs-target="#modalCreateArticle" style="font-size: 14px; padding: 12px 22px;">
+          <i class="bi bi-plus-circle me-1"></i>
+          Ajouter une publication
+        </button>
+        <a href="{% url 'blog' %}" target="_blank" class="btn-secondary" style="font-size: 13px; padding: 10px 18px; border-color: var(--border);">
+          <i class="bi bi-box-arrow-up-right me-1"></i>
+          Voir le Blog public
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS KPIs (4 indicateurs clés) -->
+  <section class="mb-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-3">
+      
+      <!-- KPI 1 : Articles publiés -->
+      <div class="col">
+        <div class="stat-block h-100">
+          <div class="stat-icon" style="background:rgba(255,76,17,.1);border-color:rgba(255,76,17,.2)">
+            <i class="bi bi-file-earmark-text" style="color:var(--sky);font-size:18px;"></i>
+          </div>
+          <div class="stat-num" data-target="{{ stats.articles }}">0</div>
+          <div class="stat-label">Articles publiés</div>
+          <div class="stat-bar-wrap"><div class="stat-bar" style="width:0%;background:var(--sky)" data-width="100%"></div></div>
+          <div class="stat-trend" style="color:var(--sky)">
+            <i class="bi bi-journal-check"></i> Publications en ligne
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI 2 : Lectures totales -->
+      <div class="col">
+        <div class="stat-block h-100">
+          <div class="stat-icon" style="background:rgba(42,106,170,.1);border-color:rgba(42,106,170,.2)">
+            <i class="bi bi-eye" style="color:var(--sky3);font-size:18px;"></i>
+          </div>
+          <div class="stat-num" data-target="{{ stats.lectures }}">0</div>
+          <div class="stat-label">Lectures totales</div>
+          <div class="stat-bar-wrap"><div class="stat-bar" style="width:0%;background:var(--sky3)" data-width="85%"></div></div>
+          <div class="stat-trend" style="color:var(--sky3)">
+            <i class="bi bi-graph-up-arrow"></i> Vues cumulées
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI 3 : Commentaires -->
+      <div class="col">
+        <div class="stat-block h-100">
+          <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.2)">
+            <i class="bi bi-chat-dots" style="color:var(--green);font-size:18px;"></i>
+          </div>
+          <div class="stat-num" data-target="{{ stats.commentaires }}">0</div>
+          <div class="stat-label">Commentaires reçus</div>
+          <div class="stat-bar-wrap"><div class="stat-bar" style="width:0%;background:var(--green)" data-width="70%"></div></div>
+          <div class="stat-trend" style="color:var(--green)">
+            <i class="bi bi-chat-heart"></i> Retours lecteurs
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI 4 : Catégories actives -->
+      <div class="col">
+        <div class="stat-block h-100">
+          <div class="stat-icon" style="background:rgba(136,136,248,.1);border-color:rgba(136,136,248,.2)">
+            <i class="bi bi-tags" style="color:#8888F8;font-size:18px;"></i>
+          </div>
+          <div class="stat-num" data-target="{{ stats.categories }}">0</div>
+          <div class="stat-label">Catégories actives</div>
+          <div class="stat-bar-wrap"><div class="stat-bar" style="width:0%;background:#8888F8" data-width="90%"></div></div>
+          <div class="stat-trend" style="color:#8888F8">
+            <i class="bi bi-collection"></i> Tax, IFRS, Audit...
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BARRE D'OUTILS : RECHERCHE, FILTRE PAR CATÉGORIE & BASCULE DE VUE -->
+  <div class="articles-toolbar mb-4">
+    <div class="row g-3 align-items-center justify-content-between">
+      
+      <!-- Formulaire de recherche et filtre -->
+      <div class="col-lg-8">
+        <form method="get" action="{% url 'articles' %}" class="d-flex flex-wrap gap-2 align-items-center">
+          <!-- Champ recherche -->
+          <div class="input-group" style="max-width: 320px;">
+            <span class="input-group-text bg-white border-end-0" style="border-color: var(--border);">
+              <i class="bi bi-search text-muted"></i>
+            </span>
+            <input type="text" name="q" class="form-control border-start-0" placeholder="Rechercher un article..." value="{{ query }}" style="border-color: var(--border); font-size: 13px;">
+          </div>
+
+          <!-- Select catégorie -->
+          <div style="min-width: 190px;">
+            <select name="categorie" class="form-select" style="border-color: var(--border); font-size: 13px;" onchange="this.form.submit()">
+              <option value="">Toutes les catégories</option>
+              {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if category_id == cat.id|stringformat:"s" %}selected{% endif %}>
+                  {{ cat.nom }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Bouton filtrer -->
+          <button type="submit" class="btn btn-hero" style="padding: 7px 16px; font-size: 13px;">
+            Filtrer
+          </button>
+
+          <!-- Bouton reset si filtre actif -->
+          {% if query or category_id %}
+            <a href="{% url 'articles' %}" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1" style="border-radius: 8px;">
+              <i class="bi bi-x-circle"></i> Réinitialiser
+            </a>
+          {% endif %}
+        </form>
+      </div>
+
+      <!-- Bascule Cartes vs Liste -->
+      <div class="col-lg-4 d-flex justify-content-lg-end align-items-center gap-2">
+        <span class="text-muted d-none d-sm-inline" style="font-size: 12px;">Affichage :</span>
+        <div class="btn-group" role="group" aria-label="Bascule d'affichage">
+          <button type="button" class="view-toggle-btn active" id="btnViewCards" onclick="switchView('cards')" style="margin-right: 5px;">
+            <i class="bi bi-grid-fill me-1"></i> Cartes
+          </button>
+          <button type="button" class="view-toggle-btn" id="btnViewList" onclick="switchView('list')">
+            <i class="bi bi-list-ul me-1"></i> Liste
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COMPTEUR DE RÉSULTATS -->
+  <div class="d-flex justify-content-between align-items-center mb-3 px-1">
+    <span style="font-size: 13px; color: var(--text3);">
+      {% if page_obj.paginator.count > 0 %}
+        Affichage de <strong>{{ page_obj.start_index }}</strong> à <strong>{{ page_obj.end_index }}</strong> sur <strong>{{ page_obj.paginator.count }}</strong> publication{{ page_obj.paginator.count|pluralize }}
+      {% else %}
+        0 publication trouvée
+      {% endif %}
+      {% if query %}pour « <em>{{ query }}</em> »{% endif %}
+    </span>
+
+    <span class="sc-pill" style="font-size: 11px;">
+      Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages|default:1 }}
+    </span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 1. VUE EN CARTES (GRILLE) -->
+  <!-- ========================================================================= -->
+  <div id="articlesCardView">
+    <div class="row g-4 mb-5">
+      {% for article in articles %}
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="article-admin-card h-100 d-flex flex-column">
+            
+            <!-- Vignette Image -->
+            <div class="article-card-img-wrap">
+              {% if article.image %}
+                <img src="{{ article.image.url }}" alt="{{ article.titre }}">
+              {% else %}
+                <img src="{% static 'images/flat-lay-business-concept.jpg' %}" alt="{{ article.titre }}">
+              {% endif %}
+              <div class="article-img-badge">
+                <i class="bi bi-calendar3 me-1"></i>{{ article.created_at|date:"d M Y" }}
+              </div>
+            </div>
+
+            <!-- Corps de la carte -->
+            <div class="p-3 d-flex flex-column flex-grow-1">
+              <!-- Métriques en-tête -->
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex gap-3" style="font-size: 11px; color: var(--text3);">
+                  <span title="Nombre de lectures"><i class="bi bi-eye text-primary me-1"></i>{{ article.lectures.count }}</span>
+                  <span title="Nombre de commentaires"><i class="bi bi-chat-dots text-success me-1"></i>{{ article.commentaires.count }}</span>
+                </div>
+                <span class="sec-badge-desc" style="font-size: 11px;">
+                  Par {{ article.auteur.first_name|default:article.auteur.username }}
+                </span>
+              </div>
+
+              <!-- Titre cliquable -->
+              <h5 class="card-title mb-2 text-truncate-2" style="font-size: 15px; line-height: 1.4; min-height: 42px;">
+                <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#modalDetailArticle{{ article.id }}">
+                  {{ article.titre }}
+                </a>
+              </h5>
+
+              <!-- Extrait texte -->
+              <p class="section-sub mb-3 flex-grow-1" style="font-size: 12px; line-height: 1.6; color: var(--text3);">
+                {{ article.contenu|striptags|truncatechars:95 }}
+              </p>
+
+              <!-- Catégories -->
+              <div class="mb-3 d-flex flex-wrap gap-1">
+                {% for ca in article.categorie_articles.all|slice:":2" %}
+                  <span class="sc-pill" style="font-size: 10px; padding: 2px 8px;">{{ ca.categorie.nom }}</span>
+                {% empty %}
+                  <span class="sc-pill" style="font-size: 10px; padding: 2px 8px;">Général</span>
+                {% endfor %}
+              </div>
+
+              <!-- Actions : Détails, Modifier, Supprimer -->
+              <div class="pt-2 border-top border-light-subtle d-flex justify-content-between align-items-center mt-auto">
+                <span style="font-size: 11px; color: var(--text3);">
+                  Slug : <code style="font-size: 10px; color: var(--sky);">{{ article.slug|truncatechars:18 }}</code>
+                </span>
+
+                <div class="d-flex gap-1">
+                  <!-- Détails -->
+                  <button type="button" class="btn-action-icon" data-bs-toggle="modal" data-bs-target="#modalDetailArticle{{ article.id }}" title="Voir les détails">
+                    <i class="bi bi-eye"></i>
+                  </button>
+
+                  <!-- Modifier -->
+                  <button type="button" class="btn-action-icon" data-bs-toggle="modal" data-bs-target="#modalEditArticle{{ article.id }}" title="Modifier l'article">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+
+                  <!-- Supprimer -->
+                  <button type="button" class="btn-action-icon text-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteArticle{{ article.id }}" title="Supprimer l'article">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12">
+          <div class="empty-state-box">
+            <div class="empty-state-icon"><i class="bi bi-journal-x"></i></div>
+            <h5 class="fw-bold mb-1">Aucune publication trouvée</h5>
+            <p class="empty-state-text mb-3">Aucun article ne correspond à votre recherche ou aucun article n'a encore été publié.</p>
+            <button type="button" class="btn-hero" data-bs-toggle="modal" data-bs-target="#modalCreateArticle" style="font-size: 13px; padding: 10px 20px;">
+              <i class="bi bi-plus-circle me-1"></i> Créer le premier article
+            </button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. VUE EN LISTE (TABLEAU ÉPURÉ) -->
+  <!-- ========================================================================= -->
+  <div id="articlesListView" style="display: none;">
+    <div class="admin-panel-card mb-5 p-0 overflow-hidden">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0" style="font-size: 13px;">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" style="padding-left: 20px; width: 80px;">Visuel</th>
+              <th scope="col">Titre & Aperçu</th>
+              <th scope="col">Catégories</th>
+              <th scope="col">Auteur</th>
+              <th scope="col">Date</th>
+              <th scope="col" class="text-center">Lectures</th>
+              <th scope="col" class="text-center">Commentaires</th>
+              <th scope="col" class="text-end" style="padding-right: 20px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for article in articles %}
+              <tr>
+                <!-- Miniature -->
+                <td style="padding-left: 20px;">
+                  <div style="width: 56px; height: 42px; border-radius: 8px; overflow: hidden; background: var(--bg2); border: 1px solid var(--border);">
+                    {% if article.image %}
+                      <img src="{{ article.image.url }}" alt="{{ article.titre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                      <img src="{% static 'images/flat-lay-business-concept.jpg' %}" alt="{{ article.titre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% endif %}
+                  </div>
+                </td>
+
+                <!-- Titre & extrait -->
+                <td>
+                  <a href="#" class="fw-bold text-decoration-none text-dark d-block mb-1" data-bs-toggle="modal" data-bs-target="#modalDetailArticle{{ article.id }}" style="font-size: 14px;">
+                    {{ article.titre }}
+                  </a>
+                  <span class="text-muted text-truncate d-inline-block" style="max-width: 360px; font-size: 12px;">
+                    {{ article.contenu|striptags|truncatechars:90 }}
+                  </span>
+                </td>
+
+                <!-- Catégories -->
+                <td>
+                  <div class="d-flex flex-wrap gap-1">
+                    {% for ca in article.categorie_articles.all %}
+                      <span class="sc-pill" style="font-size: 10px; padding: 2px 7px;">{{ ca.categorie.nom }}</span>
+                    {% empty %}
+                      <span class="sc-pill" style="font-size: 10px; padding: 2px 7px;">Général</span>
+                    {% endfor %}
+                  </div>
+                </td>
+
+                <!-- Auteur -->
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="testi-avatar" style="width: 26px; height: 26px; font-size: 10px;">
+                      {{ article.auteur.username|slice:":2"|upper }}
+                    </div>
+                    <span>{{ article.auteur.get_full_name|default:article.auteur.username }}</span>
+                  </div>
+                </td>
+
+                <!-- Date -->
+                <td style="color: var(--text3); white-space: nowrap;">
+                  {{ article.created_at|date:"d M Y" }}
+                </td>
+
+                <!-- Lectures -->
+                <td class="text-center">
+                  <span class="badge rounded-pill bg-light text-primary border px-2 py-1">
+                    <i class="bi bi-eye me-1"></i>{{ article.lectures.count }}
+                  </span>
+                </td>
+
+                <!-- Commentaires -->
+                <td class="text-center">
+                  <span class="badge rounded-pill bg-light text-success border px-2 py-1">
+                    <i class="bi bi-chat me-1"></i>{{ article.commentaires.count }}
+                  </span>
+                </td>
+
+                <!-- Actions -->
+                <td class="text-end" style="padding-right: 20px; white-space: nowrap;">
+                  <div class="d-inline-flex gap-1">
+                    <button type="button" class="btn-action-icon" data-bs-toggle="modal" data-bs-target="#modalDetailArticle{{ article.id }}" title="Détails">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button type="button" class="btn-action-icon" data-bs-toggle="modal" data-bs-target="#modalEditArticle{{ article.id }}" title="Modifier">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button type="button" class="btn-action-icon text-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteArticle{{ article.id }}" title="Supprimer">
+                      <i class="bi bi-trash3"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="8">
+                  <div class="empty-state-box my-3">
+                    <div class="empty-state-icon"><i class="bi bi-journal-x"></i></div>
+                    <p class="empty-state-text">Aucun article ne correspond à votre filtre.</p>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- PAGINATION -->
+  <!-- ========================================================================= -->
+  {% if page_obj.has_other_pages %}
+    <nav aria-label="Pagination des articles" class="my-4">
+      <ul class="pagination pagination-admin justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if pagination_query %}&{{ pagination_query }}{% endif %}" aria-label="Précédent">
+              <i class="bi bi-chevron-left"></i>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+          </li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ num }}{% if pagination_query %}&{{ pagination_query }}{% endif %}">{{ num }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if pagination_query %}&{{ pagination_query }}{% endif %}" aria-label="Suivant">
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+
+</div>
+
+<!-- ========================================================================= -->
+<!-- MODAL : AJOUTER UNE PUBLICATION -->
+<!-- ========================================================================= -->
+<div class="modal fade" id="modalCreateArticle" tabindex="-1" aria-labelledby="modalCreateArticleLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" style="border-radius: 20px; border: 1px solid var(--border); overflow: hidden;">
+      
+      <div class="modal-header px-4 py-3" style="background: var(--bg2); border-bottom: 1px solid var(--border);">
+        <div>
+          <span class="section-tag mb-1" style="font-size: 10px;">Nouvelle publication</span>
+          <h5 class="modal-title fw-bold" id="modalCreateArticleLabel" style="color: var(--text);">Rédiger un nouvel article</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+
+      <form method="post" action="{% url 'article_create' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body p-4">
+          
+          <!-- Titre -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Titre de la publication <span class="text-danger">*</span></label>
+            <input type="text" name="titre" class="form-control" placeholder="Ex: Réformes fiscales 2026 : Ce qui change pour les entreprises en RDC" required style="border-radius: 10px; border-color: var(--border);">
+          </div>
+
+          <!-- Catégories associées -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold d-block" style="font-size: 13px; color: var(--text);">Catégories associées</label>
+            <div id="createCategoryInputs" class="d-flex flex-column gap-2">
+              <div class="d-flex gap-2 align-items-center category-input-row">
+                <input type="text" name="categories" class="form-control" list="categoriesList" placeholder="Ex: Fiscalité" autocomplete="off" style="border-radius: 10px; border-color: var(--border);">
+                <button type="button" class="btn-action-icon" onclick="addCategoryInput()" title="Ajouter une catégorie" aria-label="Ajouter une catégorie">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </div>
+            </div>
+            <datalist id="categoriesList">
+              {% for cat in categories %}
+                <option value="{{ cat.nom }}"></option>
+              {% endfor %}
+            </datalist>
+            <small class="text-muted" style="font-size: 11px;">Saisissez une ou plusieurs thématiques. Une nouvelle catégorie sera créée si nécessaire.</small>
+          </div>
+
+          <!-- Image de couverture -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Image de couverture</label>
+            <input type="file" name="image" class="form-control" accept="image/*" style="border-radius: 10px; border-color: var(--border);" onchange="previewImage(this, 'createImgPreview')">
+            <div class="mt-2" id="createImgPreviewWrap" style="display: none;">
+              <img id="createImgPreview" src="" alt="Aperçu" style="max-height: 140px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border);">
+            </div>
+            <small class="text-muted" style="font-size: 11px;">Formats recommandés : JPG, PNG, WEBP (ratio 16:9 recommandé).</small>
+          </div>
+
+          <!-- Fichier joint -->
+          <div class="mb-3">
+            <label for="createJointure" class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Fichier joint (facultatif)</label>
+            <input type="file" id="createJointure" name="jointure" class="form-control" aria-describedby="createJointureHelp" style="border-radius: 10px; border-color: var(--border);">
+            <small id="createJointureHelp" class="text-muted" style="font-size: 11px;">Les lecteurs pourront télécharger ce fichier depuis la page de l'article.</small>
+          </div>
+
+          <!-- Contenu -->
+          <div class="mb-2">
+            <label class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Contenu de l'article <span class="text-danger">*</span></label>
+            <textarea name="contenu" class="form-control" rows="8" placeholder="Rédigez ici le corps de l'article, les analyses détaillées et les recommandations professionnelles..." required style="border-radius: 10px; border-color: var(--border); font-size: 13px;"></textarea>
+          </div>
+
+        </div>
+
+        <div class="modal-footer px-4 py-3" style="background: var(--bg2); border-top: 1px solid var(--border);">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal" style="border-radius: 8px;">Annuler</button>
+          <button type="submit" class="btn btn-hero btn-sm" style="padding: 9px 22px;">
+            <i class="bi bi-send me-1"></i> Publier l'article
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- MODALS DYNAMIQUES POUR CHAQUE ARTICLE (Détails, Modification, Suppression) -->
+<!-- ========================================================================= -->
+{% for article in articles %}
+
+  <!-- 1. MODAL DÉTAILS DE L'ARTICLE -->
+  <div class="modal fade" id="modalDetailArticle{{ article.id }}" tabindex="-1" aria-labelledby="modalDetailArticleLabel{{ article.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content" style="border-radius: 20px; border: 1px solid var(--border); overflow: hidden;">
+        
+        <div class="modal-header px-4 py-3" style="background: var(--bg2); border-bottom: 1px solid var(--border);">
+          <div>
+            <span class="section-tag mb-1" style="font-size: 10px;">Aperçu publication</span>
+            <h5 class="modal-title fw-bold" id="modalDetailArticleLabel{{ article.id }}" style="color: var(--text); font-size: 18px;">
+              {{ article.titre }}
+            </h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <!-- Image -->
+          {% if article.image %}
+            <div class="mb-3 rounded overflow-hidden" style="max-height: 240px;">
+              <img src="{{ article.image.url }}" alt="{{ article.titre }}" class="w-100 h-100 object-fit-cover">
+            </div>
+          {% endif %}
+
+          <!-- Métadonnées -->
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 p-3 rounded mb-3" style="background: var(--bg2); border: 1px solid var(--border);">
+            <div class="d-flex align-items-center gap-2">
+              <div class="testi-avatar" style="width: 32px; height: 32px; font-size: 11px;">
+                {{ article.auteur.username|slice:":2"|upper }}
+              </div>
+              <div style="font-size: 12px;">
+                <div class="fw-bold text-dark">{{ article.auteur.get_full_name|default:article.auteur.username }}</div>
+                <div class="text-muted">Auteur</div>
+              </div>
+            </div>
+
+            <div class="d-flex gap-3" style="font-size: 12px; color: var(--text3);">
+              <span><i class="bi bi-calendar3 me-1"></i>{{ article.created_at|date:"d F Y à H:i" }}</span>
+              <span><i class="bi bi-eye text-primary me-1"></i>{{ article.lectures.count }} vues</span>
+              <span><i class="bi bi-chat text-success me-1"></i>{{ article.commentaires.count }} avis</span>
+            </div>
+          </div>
+
+          <!-- Catégories -->
+          <div class="mb-3">
+            <span class="fw-semibold me-2" style="font-size: 12px; color: var(--text3);">Catégories :</span>
+            {% for ca in article.categorie_articles.all %}
+              <span class="sc-pill" style="font-size: 11px; padding: 2px 9px;">{{ ca.categorie.nom }}</span>
+            {% empty %}
+              <span class="sc-pill" style="font-size: 11px; padding: 2px 9px;">Non catégorisé</span>
+            {% endfor %}
+          </div>
+
+          <!-- Contenu complet -->
+          <div class="p-3 rounded border" style="background: var(--bg); max-height: 280px; overflow-y: auto; font-size: 13px; line-height: 1.7; color: var(--text2); white-space: pre-line;">
+            {{ article.contenu }}
+          </div>
+        </div>
+
+        <div class="modal-footer px-4 py-3 d-flex justify-content-between" style="background: var(--bg2); border-top: 1px solid var(--border);">
+          <a href="{% url 'detail_article' article.slug %}" target="_blank" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1" style="border-radius: 8px;">
+            <i class="bi bi-box-arrow-up-right"></i> Voir sur le site public
+          </a>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" style="border-radius: 8px;">Fermer</button>
+            <button type="button" class="btn btn-hero btn-sm" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#modalEditArticle{{ article.id }}">
+              <i class="bi bi-pencil me-1"></i> Modifier
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MODAL MODIFIER L'ARTICLE -->
+  <div class="modal fade" id="modalEditArticle{{ article.id }}" tabindex="-1" aria-labelledby="modalEditArticleLabel{{ article.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content" style="border-radius: 20px; border: 1px solid var(--border); overflow: hidden;">
+        
+        <div class="modal-header px-4 py-3" style="background: var(--bg2); border-bottom: 1px solid var(--border);">
+          <div>
+            <span class="section-tag mb-1" style="font-size: 10px;">Édition de contenu</span>
+            <h5 class="modal-title fw-bold" id="modalEditArticleLabel{{ article.id }}" style="color: var(--text);">
+              Modifier l'article
+            </h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <form method="post" action="{% url 'article_edit' article.id %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="modal-body p-4">
+            
+            <!-- Titre -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Titre de l'article <span class="text-danger">*</span></label>
+              <input type="text" name="titre" class="form-control" value="{{ article.titre }}" required style="border-radius: 10px; border-color: var(--border);">
+            </div>
+
+            <!-- Catégories associées -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold d-block" style="font-size: 13px; color: var(--text);">Catégories</label>
+              <div class="d-flex flex-wrap gap-2 p-2 rounded" style="background: var(--bg2); border: 1px solid var(--border);">
+                {% for cat in categories %}
+                  <div class="form-check form-check-inline m-0">
+                    <input class="form-check-input" type="checkbox" name="categories" value="{{ cat.id }}" id="edit_cat_{{ article.id }}_{{ cat.id }}"
+                      {% for ca in article.categorie_articles.all %}{% if ca.categorie_id == cat.id %}checked{% endif %}{% endfor %}>
+                    <label class="form-check-label" for="edit_cat_{{ article.id }}_{{ cat.id }}" style="font-size: 12px; cursor: pointer;">
+                      {{ cat.nom }}
+                    </label>
+                  </div>
+                {% empty %}
+                  <span class="text-muted" style="font-size: 12px;">Aucune catégorie enregistrée.</span>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Image actuelle et remplacement -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Image de couverture</label>
+              {% if article.image %}
+                <div class="mb-2 d-flex align-items-center gap-3">
+                  <img src="{{ article.image.url }}" alt="{{ article.titre }}" style="width: 70px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);">
+                  <span class="text-muted" style="font-size: 12px;">Image actuelle chargée. Choisissez un fichier ci-dessous pour la remplacer.</span>
+                </div>
+              {% endif %}
+              <input type="file" name="image" class="form-control" accept="image/*" style="border-radius: 10px; border-color: var(--border);">
+            </div>
+
+            <!-- Contenu -->
+            <div class="mb-2">
+              <label class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Contenu de l'article <span class="text-danger">*</span></label>
+              <textarea name="contenu" class="form-control" rows="8" required style="border-radius: 10px; border-color: var(--border); font-size: 13px;">{{ article.contenu }}</textarea>
+            </div>
+
+          </div>
+
+          <div class="modal-footer px-4 py-3" style="background: var(--bg2); border-top: 1px solid var(--border);">
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal" style="border-radius: 8px;">Annuler</button>
+            <button type="submit" class="btn btn-hero btn-sm" style="padding: 9px 22px;">
+              <i class="bi bi-check2-circle me-1"></i> Enregistrer les modifications
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL CONFIRMATION SUPPRESSION -->
+  <div class="modal fade" id="modalDeleteArticle{{ article.id }}" tabindex="-1" aria-labelledby="modalDeleteArticleLabel{{ article.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 20px; border: 1px solid var(--border); overflow: hidden;">
+        
+        <div class="modal-header px-4 py-3" style="background: #fdf2f2; border-bottom: 1px solid #fbd5d5;">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-exclamation-triangle-fill text-danger fs-5"></i>
+            <h5 class="modal-title fw-bold text-danger mb-0" id="modalDeleteArticleLabel{{ article.id }}">
+              Supprimer la publication
+            </h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <form method="post" action="{% url 'article_delete' article.id %}">
+          {% csrf_token %}
+          <div class="modal-body p-4">
+            <p class="mb-2" style="font-size: 14px; color: var(--text);">
+              Êtes-vous certain de vouloir supprimer définitivement cet article ?
+            </p>
+            <div class="p-3 rounded my-3" style="background: var(--bg2); border: 1px solid var(--border);">
+              <div class="fw-bold" style="color: var(--text);">« {{ article.titre }} »</div>
+              <div class="text-muted mt-1" style="font-size: 12px;">
+                Publié le {{ article.created_at|date:"d F Y" }} &bull; {{ article.lectures.count }} lectures
+              </div>
+            </div>
+            <p class="text-danger mb-0" style="font-size: 12px;">
+              <i class="bi bi-info-circle me-1"></i> Cette action est irréversible et supprimera également les commentaires associés.
+            </p>
+          </div>
+
+          <div class="modal-footer px-4 py-3" style="background: var(--bg2); border-top: 1px solid var(--border);">
+            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal" style="border-radius: 8px;">Annuler</button>
+            <button type="submit" class="btn btn-danger btn-sm" style="border-radius: 8px; padding: 8px 18px;">
+              <i class="bi bi-trash3 me-1"></i> Confirmer la suppression
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
+
+<!-- JAVASCRIPT : ANIMATION STATS, BASCULE DE VUE & APERÇU D'IMAGE -->
+<script>
+  // Bascule Vue Cartes / Vue Liste
+  function switchView(view) {
+    const cardView = document.getElementById('articlesCardView');
+    const listView = document.getElementById('articlesListView');
+    const btnCards = document.getElementById('btnViewCards');
+    const btnList = document.getElementById('btnViewList');
+
+    if (view === 'list') {
+      cardView.style.display = 'none';
+      listView.style.display = 'block';
+      btnCards.classList.remove('active');
+      btnList.classList.add('active');
+      localStorage.setItem('admin_articles_view', 'list');
+    } else {
+      cardView.style.display = 'block';
+      listView.style.display = 'none';
+      btnCards.classList.add('active');
+      btnList.classList.remove('active');
+      localStorage.setItem('admin_articles_view', 'cards');
+    }
+  }
+
+  // Prévisualisation d'image lors de l'upload
+  function previewImage(input, previewId) {
+    const previewWrap = document.getElementById(previewId + 'Wrap');
+    const preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        if (previewWrap) previewWrap.style.display = 'block';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function addCategoryInput() {
+    const container = document.getElementById('createCategoryInputs');
+    const row = document.createElement('div');
+    row.className = 'd-flex gap-2 align-items-center category-input-row';
+    row.innerHTML = `
+      <input type="text" name="categories" class="form-control" list="categoriesList" placeholder="Ex: Fiscalité" autocomplete="off" style="border-radius: 10px; border-color: var(--border);">
+      <button type="button" class="btn-action-icon" onclick="this.closest('.category-input-row').remove()" title="Retirer la catégorie" aria-label="Retirer la catégorie">
+        <i class="bi bi-dash-lg"></i>
+      </button>`;
+    container.appendChild(row);
+    row.querySelector('input').focus();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Restaurer le mode de vue sauvegardé
+    const savedView = localStorage.getItem('admin_articles_view');
+    if (savedView === 'list') {
+      switchView('list');
+    }
+
+    // Animation des statistiques KPI
+    const statNums = document.querySelectorAll('.stat-num[data-target]');
+    const statsObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target;
+          const target = parseFloat(el.dataset.target) || 0;
+          const suffix = el.dataset.suffix || '';
+          const prefix = el.dataset.prefix || '';
+          const decimal = parseInt(el.dataset.decimal) || 0;
+          let start = 0, duration = 1400, startTime = null;
+
+          function animate(ts) {
+            if (!startTime) startTime = ts;
+            const progress = Math.min((ts - startTime) / duration, 1);
+            const ease = 1 - Math.pow(1 - progress, 3);
+            const val = start + (target - start) * ease;
+            el.textContent = prefix + (decimal ? val.toFixed(decimal) : Math.round(val)) + suffix;
+            if (progress < 1) requestAnimationFrame(animate);
+          }
+          requestAnimationFrame(animate);
+
+          const bar = el.closest('.stat-block')?.querySelector('.stat-bar');
+          if (bar && bar.dataset.width) {
+            setTimeout(() => { bar.style.width = bar.dataset.width; }, 200);
+          }
+          statsObs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    statNums.forEach(el => statsObs.observe(el));
+  });
+</script>
+
+{% endblock %}

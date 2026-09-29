@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 import uuid
 
@@ -6,8 +8,10 @@ import uuid
 class Acteur(models.Model):
     acronyme = models.CharField(max_length=2)
     designation = models.CharField(max_length=255)
-    fonction = models.CharField(max_length=255, blank=True, default="Visiteur")
+    type = models.CharField(max_length=25, blank=True)
+    fonction = models.CharField(max_length=255, blank=True)
     telephone = models.CharField(max_length=20, blank=True)
+    image = models.ImageField(blank=True)
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -23,6 +27,8 @@ class Utilisateur(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="utilisateur")
     acronyme = models.CharField(max_length=2, blank=True)
     telephone = models.CharField(max_length=20, blank=True)
+    adresse = models.TextField(blank=True)
+    image = models.ImageField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -84,6 +90,7 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='articles/', blank=True, null=True)
+    jointure = models.FileField(upload_to='articles/jointure/', blank=True)
 
     class Meta:
         verbose_name = "Article"
@@ -132,11 +139,13 @@ class Lecture(models.Model):
         verbose_name_plural = "Lectures"
 
     def __str__(self):
-        return f"{self.utilisateur.user.username} a lu {self.article.titre}"
+        lecteur = self.utilisateur.user.username if self.utilisateur else "Un visiteur"
+        return f"{lecteur} a lu {self.article.titre}"
 
 
 class MailingList(models.Model):
     auteur = models.ForeignKey(User, on_delete=models.CASCADE, related_name="mailing_lists")
+    categorie = models.CharField(max_length=255, blank=True) 
     date = models.DateTimeField(auto_now_add=True)
     email = models.EmailField(unique=True)
     titre = models.CharField(max_length=255, blank=True)
@@ -163,3 +172,67 @@ class NewsletterSubscription(models.Model):
 
     def __str__(self):
         return self.email
+
+
+
+class Notification(models.Model):
+    liste_choix = [("Commentaire", "commentaire"), ("Lecture", "lecture"), ("Inscription", "inscription"), ("Abonnement", "abonnement")]
+    auteur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE, related_name="notifications", blank=True, null=True)
+    type = models.CharField(max_length=30, choices=liste_choix)
+    titre = models.CharField(max_length=255)
+    contenu = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    lecture = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.titre
+
+
+
+class Action(models.Model):
+    liste_choix = [
+        ("Creation", "création"),
+        ("Modification", "modification"),
+        ("Suppression", "suppression"),
+        ("Connexion", "connexion"),
+        ("Deconnexion", "déconnexion"),
+        ("Consultation", "consultation"),
+        ("Export", "export"),
+    ]
+
+    auteur = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="actions")
+    type_action = models.CharField(max_length=30, choices=liste_choix, default="Consultation")
+    model_name = models.CharField(max_length=100, blank=True, default="")
+    description = models.TextField(blank=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.SET_NULL, null=True, blank=True, related_name="actions")
+    object_id = models.PositiveIntegerField(null=True, blank=True)
+    objet = GenericForeignKey("content_type", "object_id")
+    details = models.JSONField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Action"
+        verbose_name_plural = "Actions"
+
+    def __str__(self):
+        auteur_nom = self.auteur.get_full_name() or self.auteur.username if self.auteur else "Système"
+        return f"{auteur_nom} - {self.get_type_action_display()} - {self.model_name or 'objet'}"
+
+
+class Associe(models.Model):
+    liste_choix = [("Client", "client"), ("Partenaire", "partenaire"), ("Affiliation", "affiliation")]
+    type = models.CharField(max_length=30, choices=liste_choix)
+    designation = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    lien = models.TextField(blank=True)
+    image = models.ImageField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Associé"
+        verbose_name_plural = "Associés"
+
+
+    def __str__(self):
+        return self.designation

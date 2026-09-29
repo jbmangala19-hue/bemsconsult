@@ -1,0 +1,39 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block nav %}{% endblock %}
+{% block content %}
+<section class="app-section" id="newsletter">
+  <div class="row g-0">
+    <div class="col-lg-6 card px-4 px-md-5 py-4">
+      <a href="{% url 'home' %}" class="nav-logo d-block mb-4">
+        <img src="{% static 'images/Logo-2.png' %}" height="120" width="150" alt="Bems Consult ? Accueil">
+      </a>
+      <div class="text-center mb-4">
+        <div class="section-tag">Newsletter</div>
+        <h1 class="section-title">Se désabonner de la newsletter</h1>
+        <p class="section-sub">Vous ne souhaitez plus recevoir nos actualités ? Renseignez l'adresse e-mail utilisée lors de votre abonnement.</p>
+      </div>
+      {% if result %}
+        <div class="alert alert-success" role="status">Votre désabonnement est confirmé. Vous ne recevrez plus notre newsletter à cette adresse. Nous espérons vous revoir bientot.</div>
+        <a href="{% url 'home' %}" class="btn-hero mb-4">Retour ? l?accueil</a>
+      {% else %}
+        <form class="mb-3" method="post" action="{% url 'desabonnement' %}">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="unsubscribe-email" class="section-sub">Adresse e-mail</label>
+            <input id="unsubscribe-email" class="form-control" type="email" name="email" value="{{ email }}" placeholder="exemple@gmail.com" autocomplete="email" maxlength="254" required {% if error %}aria-invalid="true" aria-describedby="unsubscribe-error"{% endif %}>
+          </div>
+          {% if error %}<p id="unsubscribe-error" class="sec-badge-desc text-danger mt-3" role="alert">{{ error }}</p>{% endif %}
+          <div class="hero-btns mt-4 mb-4">
+            <button type="submit" class="btn-hero">Se désabonner <svg viewBox="0 0 16 16" aria-hidden="true"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg></button>
+            <a href="{% url 'home' %}" class="btn-secondary">Accueil</a>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9448.jpg' %}" loading="lazy" class="h-100 w-100 object-fit-cover" alt="Le cabinet Bems Consult">
+    </div>
+  </div>
+</section>
+{% endblock %}

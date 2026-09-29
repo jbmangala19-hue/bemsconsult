@@ -1,0 +1,95 @@
+{% extends 'admins/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/users.css' %}">
+
+<div class="admin-dashboard">
+  {% for message in messages %}<div class="alert alert-success" role="status">{{ message }}</div>{% endfor %}
+  <div class="admin-hero-card mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <div><span class="section-tag">Administration &bull; Utilisateurs</span>
+        <h2 class="section-title mb-2" style="font-size: clamp(24px, 3vw, 36px);">Gestion des utilisateurs</h2>
+        <p class="section-sub mb-0">Gérez les comptes utilisateurs sans accès à l’espace administrateur.</p>
+      </div>
+      <button type="button" class="btn-hero" data-bs-toggle="modal" data-bs-target="#modalCreateUser"><i class="bi bi-person-plus me-1"></i> Ajouter un utilisateur</button>
+    </div>
+  </div>
+  <form method="get" class="articles-toolbar d-flex flex-wrap gap-2 mb-4">
+    <input class="form-control" style="max-width: 340px;" type="search" name="q" value="{{ query }}" placeholder="Nom, e-mail, téléphone…" aria-label="Rechercher un utilisateur">
+    <select class="form-select" style="max-width: 200px;" name="status" aria-label="Statut du compte">
+      <option value="">Tous les statuts</option>
+      <option value="active" {% if status == 'active' %}selected{% endif %}>Actifs</option>
+      <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Inactifs</option>
+    </select>
+    <button class="btn btn-hero" type="submit">Filtrer</button>
+    {% if query or status %}<a href="{% url 'users' %}" class="btn btn-outline-secondary">Réinitialiser</a>{% endif %}
+  </form>
+  {% if form.errors %}
+    <div class="admin-panel-card mb-4">
+      <h3 class="h5">Corriger les informations de l’utilisateur</h3>
+      {% include 'admins/user_form.html' with user_form=form user_id=editing_id %}
+    </div>
+  {% endif %}
+  <p class="text-muted">{{ page_obj.paginator.count }} utilisateur{{ page_obj.paginator.count|pluralize }} — Affichage de {{ page_obj.start_index }} à {{ page_obj.end_index }}</p>
+  <div class="admin-panel-card">
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead><tr><th>Utilisateur</th><th>Contact</th><th>Adresse</th><th>Inscription</th><th>Statut</th><th>Newsletter</th><th>Actions</th></tr></thead>
+        <tbody>
+        {% for account, edit_form in user_rows %}
+          <tr>
+            <td><div class="d-flex align-items-center gap-2">
+              {% if account.utilisateur.image %}<img src="{{ account.utilisateur.image.url }}" alt="" width="40" height="40" class="rounded-circle" style="object-fit: cover;">
+              {% else %}<span class="testi-avatar" style="width:40px;height:40px;">{{ account.username|slice:':2'|upper }}</span>{% endif %}
+              <div><strong>{{ account.get_full_name|default:account.username }}</strong><div class="small text-muted">{{ account.username }}</div></div>
+            </div></td>
+            <td>{{ account.email|default:'—' }}<div class="small text-muted">{{ account.utilisateur.telephone|default:'—' }}</div></td>
+            <td>{{ account.utilisateur.adresse|default:'—' }}</td>
+            <td>{{ account.date_joined|date:'d/m/Y' }}</td>
+            <td>{% if account.is_active %}<span class="badge bg-success-subtle text-success">Actif</span>{% else %}<span class="badge bg-secondary-subtle text-secondary">Inactif</span>{% endif %}</td>
+            <td>{% if account.newsletter_subscribed %}<span class="badge bg-success-subtle text-success"><i class="bi bi-envelope-check me-1"></i>Abonné</span>{% else %}<span class="badge bg-secondary-subtle text-secondary">Non abonné</span>{% endif %}</td>
+            <td><div class="d-flex gap-2">
+              <button type="button" class="btn-action-icon" data-bs-toggle="modal" data-bs-target="#modalEditUser{{ account.pk }}" aria-label="Modifier {{ account.username }}"><i class="bi bi-pencil"></i></button>
+              <button type="button" class="btn-action-icon text-danger" data-bs-toggle="modal" data-bs-target="#modalDeleteUser{{ account.pk }}" aria-label="Supprimer {{ account.username }}"><i class="bi bi-trash3"></i></button>
+            </div></td>
+          </tr>
+        {% empty %}<tr><td colspan="7"><div class="empty-state-box"><div class="empty-state-icon"><i class="bi bi-people"></i></div><p class="empty-state-text">Aucun utilisateur ne correspond à votre recherche.</p></div></td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% if page_obj.has_other_pages %}
+  <nav class="my-4" aria-label="Pagination des utilisateurs"><ul class="pagination pagination-admin justify-content-center">
+    {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ pagination_query }}">Précédent</a></li>{% endif %}
+    <li class="page-item active"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+    {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ pagination_query }}">Suivant</a></li>{% endif %}
+  </ul></nav>
+  {% endif %}
+</div>
+<div class="modal fade user-modal" id="modalCreateUser" tabindex="-1" aria-labelledby="createUserTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title" id="createUserTitle">Ajouter un utilisateur</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+    {% if not form.errors %}{% include 'admins/user_form.html' with user_form=form %}{% else %}<div class="modal-body">Utilisez le formulaire de correction affiché sur la page.</div>{% endif %}
+  </div></div>
+</div>
+{% for account, edit_form in user_rows %}
+<div class="modal fade user-modal" id="modalEditUser{{ account.pk }}" tabindex="-1" aria-labelledby="editUserTitle{{ account.pk }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title" id="editUserTitle{{ account.pk }}">Modifier {{ account.username }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+    {% include 'admins/user_form.html' with user_form=edit_form user_id=account.pk %}
+  </div></div>
+</div>
+<div class="modal fade user-modal" id="modalDeleteUser{{ account.pk }}" tabindex="-1" aria-labelledby="deleteUserTitle{{ account.pk }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title text-danger" id="deleteUserTitle{{ account.pk }}">Supprimer l’utilisateur</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+    <form method="post" action="{% url 'users' %}">{% csrf_token %}
+      <input type="hidden" name="action" value="delete"><input type="hidden" name="user_id" value="{{ account.pk }}">
+      <div class="modal-body">Voulez-vous supprimer définitivement <strong>{{ account.username }}</strong> ?<p class="text-danger small mt-3">Son profil et ses données associées, notamment ses commentaires et lectures, seront également supprimés.</p></div>
+      <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button><button type="submit" class="btn btn-danger">Confirmer la suppression</button></div>
+    </form>
+  </div></div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,17 @@
+<form method="get" class="articles-toolbar d-flex flex-wrap gap-2 mb-3">
+<input type="hidden" name="tab" value="actions">
+<input type="search" name="q" value="{{ query }}" class="form-control" style="max-width:320px" placeholder="Rechercher une action…" aria-label="Rechercher une action">
+<select name="type" class="form-select" style="max-width:220px" aria-label="Type d’action"><option value="">Tous les types</option>{% for value,label in action_types %}<option value="{{ value }}" {% if value == kind %}selected{% endif %}>{{ label|capfirst }}</option>{% endfor %}</select>
+<button type="submit" class="btn btn-hero">Filtrer</button>{% if query or kind %}<a href="?tab=actions" class="btn btn-outline-secondary">Réinitialiser</a>{% endif %}
+</form>
+<p class="small text-muted">{{ page_obj.paginator.count }} action{{ page_obj.paginator.count|pluralize }}</p>
+<div class="admin-panel-card table-responsive"><table class="table align-middle"><thead><tr><th>Date</th><th>Auteur</th><th>Action</th><th>Objet</th><th>Description</th><th>Détails</th></tr></thead><tbody>
+{% for action in page_obj %}<tr><td>{{ action.created_at|date:'d/m/Y H:i' }}</td><td>{% if action.auteur %}{{ action.auteur.get_full_name|default:action.auteur.username }}{% else %}Système / compte supprimé{% endif %}</td><td><span class="badge bg-primary-subtle text-primary">{{ action.get_type_action_display|capfirst }}</span></td><td>{{ action.model_name|default:'—' }}</td><td>{{ action.description|truncatechars:100 }}</td><td><a class="btn-action-icon" href="?{{ pagination_query }}&page={{ page_obj.number }}&detail={{ action.pk }}" aria-label="Détails de l’action {{ action.pk }}"><i class="bi bi-eye"></i></a></td></tr>
+{% empty %}<tr><td colspan="6"><div class="empty-state-box">Aucune action à afficher.</div></td></tr>{% endfor %}
+</tbody></table></div>
+{% include 'admins/account_pagination.html' %}
+{% if action_detail %}<div class="modal fade" id="actionDetail" tabindex="-1" aria-labelledby="actionDetailTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">
+<div class="modal-header"><h5 class="modal-title" id="actionDetailTitle">Détails de l’action #{{ action_detail.pk }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+<div class="modal-body p-4"><dl><dt>Auteur</dt><dd>{% if action_detail.auteur %}{{ action_detail.auteur.get_full_name|default:action_detail.auteur.username }}{% else %}Système / compte supprimé{% endif %}</dd><dt>Date</dt><dd>{{ action_detail.created_at|date:'d/m/Y H:i:s' }}</dd><dt>Type</dt><dd>{{ action_detail.get_type_action_display|capfirst }}</dd><dt>Objet concerné</dt><dd>{{ action_detail.model_name|default:'—' }}{% if action_detail.object_id %} #{{ action_detail.object_id }}{% endif %}</dd><dt>Description</dt><dd class="detail-text">{{ action_detail.description|default:'—' }}</dd><dt>Informations complémentaires</dt><dd><pre class="detail-text">{{ action_json|default:'Aucune information complémentaire.' }}</pre></dd></dl></div>
+<div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fermer</button></div>
+</div></div></div><script>document.addEventListener('DOMContentLoaded',function(){bootstrap.Modal.getOrCreateInstance(document.getElementById('actionDetail')).show();});</script>{% endif %}

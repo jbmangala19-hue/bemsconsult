@@ -1,0 +1,64 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/management.css' %}">
+
+<div class="admin-dashboard">
+  {% for message in messages %}<div class="alert alert-success" role="status">{{ message }}</div>{% endfor %}
+  <div class="admin-hero-card mb-4"><div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div><span class="section-tag">Administration</span><h2 class="section-title mb-2" style="font-size:clamp(24px,3vw,36px);"><i class="bi {{ config.icon }} me-2"></i>{{ config.title }}</h2><p class="section-sub mb-0">{{ config.description }}</p></div>
+    {% if config.form %}<a href="{% url section %}?{{ pagination_query }}#formModal" class="btn-hero" {% if not open_form %}data-bs-toggle="modal" data-bs-target="#formModal"{% endif %}><i class="bi bi-plus-circle me-1"></i> Ajouter</a>{% endif %}
+  </div></div>
+  <form method="get" class="articles-toolbar d-flex flex-wrap gap-2 mb-4">
+    <input type="search" name="q" value="{{ query }}" class="form-control" style="max-width:360px;" placeholder="Rechercher…" aria-label="Rechercher">
+    {% if config.status %}<select name="status" class="form-select" style="max-width:200px;" aria-label="Filtrer par statut">
+      <option value="">Tous les statuts</option><option value="1" {% if status == '1' %}selected{% endif %}>{% if config.readable %}Lus{% else %}Actifs{% endif %}</option><option value="0" {% if status == '0' %}selected{% endif %}>{% if config.readable %}Non lus{% else %}Inactifs{% endif %}</option>
+    </select>{% endif %}
+    <button type="submit" class="btn btn-hero">Filtrer</button>{% if query or status %}<a href="{% url section %}" class="btn btn-outline-secondary">Réinitialiser</a>{% endif %}
+  </form>
+  <p class="text-muted small">{{ page_obj.paginator.count }} résultat{{ page_obj.paginator.count|pluralize }} — Affichage de {{ page_obj.start_index }} à {{ page_obj.end_index }}</p>
+  <div class="admin-panel-card"><div class="table-responsive"><table class="table align-middle">
+    <thead><tr>{% for header in headers %}<th>{{ header }}</th>{% endfor %}<th>Actions</th></tr></thead>
+    <tbody>{% for row in rows %}<tr>
+      {% for cell in row.cells %}<td>{% if cell.badge %}<span class="badge {% if cell.positive %}bg-success-subtle text-success{% else %}bg-secondary-subtle text-secondary{% endif %}">{{ cell.value }}</span>{% elif cell.date %}{{ cell.value|date:'d/m/Y H:i' }}{% else %}{{ cell.value|default:'—'|truncatechars:90 }}{% endif %}</td>{% endfor %}
+      <td><div class="d-flex gap-2">
+        {% if config.readable %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="read"><input type="hidden" name="object_id" value="{{ row.object.pk }}"><button class="btn-action-icon" type="submit" title="Lire" aria-label="Lire {{ row.object }}"><i class="bi bi-eye"></i></button></form>
+        {% else %}<a class="btn-action-icon" href="?{{ pagination_query }}&page={{ page_obj.number }}&detail={{ row.object.pk }}" title="Détails" aria-label="Détails de {{ row.object }}"><i class="bi bi-eye"></i></a>{% endif %}
+        {% if config.editable %}<a class="btn-action-icon" href="?{{ pagination_query }}&page={{ page_obj.number }}&edit={{ row.object.pk }}" title="Modifier" aria-label="Modifier {{ row.object }}"><i class="bi bi-pencil"></i></a>{% endif %}
+        <button class="btn-action-icon text-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete{{ row.object.pk }}" title="Supprimer" aria-label="Supprimer {{ row.object }}"><i class="bi bi-trash3"></i></button>
+      </div></td>
+    </tr>{% empty %}<tr><td colspan="{{ headers|length|add:1 }}"><div class="empty-state-box"><div class="empty-state-icon"><i class="bi {{ config.icon }}"></i></div><p class="empty-state-text">Aucun résultat ne correspond à votre recherche.</p></div></td></tr>{% endfor %}</tbody>
+  </table></div></div>
+  {% if page_obj.has_other_pages %}<nav class="my-4" aria-label="Pagination"><ul class="pagination pagination-admin justify-content-center">
+    {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?{{ pagination_query }}&page={{ page_obj.previous_page_number }}">Précédent</a></li>{% endif %}
+    <li class="page-item active"><span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span></li>
+    {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?{{ pagination_query }}&page={{ page_obj.next_page_number }}">Suivant</a></li>{% endif %}
+  </ul></nav>{% endif %}
+</div>
+{% if form %}<div class="modal fade management-modal" id="formModal" tabindex="-1" aria-labelledby="formTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">
+  <div class="modal-header px-4 py-3"><h5 id="formTitle" class="modal-title">{% if editing_id %}Modifier{% else %}Ajouter{% endif %} — {{ config.title }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+  <form method="post" action="{% url section %}?{{ pagination_query }}&page={{ page_obj.number }}" enctype="multipart/form-data">{% csrf_token %}<input type="hidden" name="action" value="{% if editing_id %}edit{% else %}create{% endif %}">{% if editing_id %}<input type="hidden" name="object_id" value="{{ editing_id }}">{% endif %}
+    <div class="modal-body p-4">{{ form.non_field_errors }}{% for field in form %}<div class="mb-3"><label class="form-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}</label>{{ field }}{% if field.help_text %}<div class="small text-muted">{{ field.help_text }}</div>{% endif %}{% for error in field.errors %}<div class="small text-danger" role="alert">{{ error }}</div>{% endfor %}</div>{% endfor %}</div>
+    <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button><button class="btn btn-hero" type="submit"><i class="bi bi-check2-circle me-1"></i>Enregistrer</button></div>
+  </form>
+</div></div></div>{% endif %}
+{% if detail %}<div class="modal fade management-modal" id="detailModal" tabindex="-1" aria-labelledby="detailTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">
+  <div class="modal-header"><h5 id="detailTitle" class="modal-title">Détails — {{ detail.object }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+  <div class="modal-body p-4"><dl>{% for cell in detail.cells %}<dt class="small text-muted mt-3">{{ cell.label }}</dt><dd class="detail-value">{% if cell.file %}{% if cell.url %}{% if cell.image %}<img src="{{ cell.url }}" alt="Photo" class="rounded" style="max-width:100%;max-height:240px;">{% else %}<a href="{{ cell.url }}" target="_blank" rel="noopener">Ouvrir la pièce jointe</a>{% endif %}{% else %}—{% endif %}{% elif cell.date %}{{ cell.value|date:'d/m/Y H:i' }}{% else %}{{ cell.value|default:'—' }}{% endif %}</dd>{% endfor %}</dl></div>
+  <div class="modal-footer">{% if config.readable and not detail.object.lecture %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="read"><input type="hidden" name="object_id" value="{{ detail.object.pk }}"><button type="submit" class="btn btn-hero">Marquer comme lu</button></form>{% endif %}<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fermer</button></div>
+</div></div></div>{% endif %}
+{% for row in rows %}<div class="modal fade management-modal" id="delete{{ row.object.pk }}" tabindex="-1" aria-labelledby="deleteTitle{{ row.object.pk }}" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title text-danger" id="deleteTitle{{ row.object.pk }}">Confirmer la suppression</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button></div>
+  <form method="post" action="{% url section %}?{{ pagination_query }}&page={{ page_obj.number }}">{% csrf_token %}<input type="hidden" name="action" value="delete"><input type="hidden" name="object_id" value="{{ row.object.pk }}">
+    <div class="modal-body p-4"><p>Supprimer définitivement <strong>{{ row.object }}</strong> ?</p><p class="text-danger small mb-0">Cette action est irréversible.{% if section == 'acteurs' %} Les messages et témoignages de cet acteur seront également supprimés.{% endif %}</p></div>
+    <div class="modal-footer"><button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button><button type="submit" class="btn btn-danger">Supprimer</button></div>
+  </form>
+</div></div></div>{% endfor %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  {% if open_form %}bootstrap.Modal.getOrCreateInstance(document.getElementById('formModal')).show();
+  {% elif detail %}bootstrap.Modal.getOrCreateInstance(document.getElementById('detailModal')).show();
+  {% else %}if (window.location.hash === '#formModal' && document.getElementById('formModal')) { bootstrap.Modal.getOrCreateInstance(document.getElementById('formModal')).show(); }{% endif %}
+});
+</script>
+{% endblock %}

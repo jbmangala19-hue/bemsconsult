@@ -1,0 +1,222 @@
+ /* Scoped Admin Dashboard Styles */
+  .admin-dashboard {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 100px max(24px, calc((100vw - var(--max-w)) / 2)) 60px;
+  }
+
+  .admin-hero-card {
+    background: linear-gradient(135deg, var(--bg2) 0%, #edf3fa 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .admin-hero-card::after {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(255, 76, 17, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .admin-panel-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    height: 100%;
+    transition: box-shadow .3s ease, border-color .3s ease;
+  }
+
+  .admin-panel-card:hover {
+    border-color: rgba(42, 106, 170, 0.35);
+    box-shadow: 0 10px 25px rgba(11, 22, 73, 0.04);
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Timeline Styles */
+  .timeline-feed {
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .timeline-feed::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -28px;
+    top: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    background: var(--bg);
+    border: 2px solid var(--sky);
+    box-shadow: 0 0 0 3px rgba(255, 76, 17, 0.12);
+  }
+
+  .timeline-dot.is-creation { border-color: var(--green); color: var(--green); box-shadow: 0 0 0 3px rgba(61, 204, 142, 0.15); }
+  .timeline-dot.is-modification { border-color: var(--sky3); color: var(--sky3); box-shadow: 0 0 0 3px rgba(42, 106, 170, 0.15); }
+  .timeline-dot.is-suppression { border-color: var(--red); color: var(--red); box-shadow: 0 0 0 3px rgba(232, 90, 90, 0.15); }
+  .timeline-dot.is-connexion { border-color: #f59e0b; color: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
+
+  .timeline-content {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    transition: transform .2s ease;
+  }
+
+  .timeline-content:hover {
+    transform: translateX(4px);
+    background: #f1f5fa;
+  }
+
+  /* Interactive Notification Item */
+  .notification-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    margin-bottom: 12px;
+    transition: all .2s ease;
+  }
+
+  .notification-item:hover {
+    background: var(--bg);
+    border-color: var(--sky);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.04);
+  }
+
+  .notification-item.unread {
+    border-left: 4px solid var(--sky);
+    background: rgba(255, 76, 17, 0.03);
+  }
+
+  /* User Directory Card */
+  .user-dir-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    margin-bottom: 10px;
+    transition: background .2s ease, border-color .2s ease;
+  }
+
+  .user-dir-item:hover {
+    background: #ffffff;
+    border-color: var(--sky3);
+  }
+
+  /* Message Feed Item */
+  .message-feed-item {
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    margin-bottom: 12px;
+    transition: all .2s ease;
+  }
+
+  .message-feed-item:hover {
+    background: var(--bg);
+    border-color: var(--sky3);
+    box-shadow: 0 4px 14px rgba(11, 22, 73, 0.05);
+  }
+
+  .message-feed-item.unread {
+    border-left: 4px solid var(--sky);
+    background: #fff9f6;
+  }
+
+  /* Mailing Card */
+  .mailing-card-item {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg2);
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: all .2s ease;
+  }
+
+  .mailing-card-item:hover {
+    background: #fff;
+    border-color: var(--sky);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.04);
+  }
+
+  /* Empty state */
+  .empty-state-box {
+    text-align: center;
+    padding: 36px 16px;
+    background: var(--bg2);
+    border-radius: 12px;
+    border: 1px dashed var(--border);
+  }
+
+  .empty-state-icon {
+    font-size: 32px;
+    color: var(--text3);
+    opacity: 0.6;
+    margin-bottom: 10px;
+  }
+
+  .empty-state-text {
+    font-size: 14px;
+    color: var(--text3);
+    margin: 0;
+  }

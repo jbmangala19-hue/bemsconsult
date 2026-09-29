@@ -1,0 +1,177 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% block actu %}
+<!-- DASHBOARD PREVIEW -->
+<section class="dashboard-section" id="dashboard">
+  <div class="dashboard-inner">
+    <div style="text-align:center">
+      <div class="section-tag">Actualités</div>
+      <h2 class="section-title" style="color: var(--bg);">Nos dernières publications</h2>
+      <p class="section-sub" style="color: var(--bg);">Réalisations professionelles, analyses réglementaires, échéances fiscales et vie du cabinet : l’essentiel pour rester informé. </p>
+    </div>
+  </div>
+</section>
+<section class="app-section" id="services">
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="row g-3 mt-3 mb-5">
+            {% for article in articles %}
+                <div class="col-lg-4">
+                    <div class="card h-100">
+                        {% if article.image %}
+                            <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.titre }}" style="height: 220px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'images/flat-lay-business-concept.jpg' %}" class="card-img-top" alt="{{ article.titre }}" style="height: 220px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <div>
+                                    <span class="sec-badge-desc">{{ article.created_at|date:"d F Y" }}</span>
+                                </div>
+                                <div class="d-flex gap-3">
+                                    <div class="d-flex align-items-center gap-1">
+                                    <i class="bi bi-eye" style="color: var(--sky);"></i>
+                                    <span class="sec-badge-desc">{{ article.lectures.count }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                    <i class="bi bi-chat" style="color: var(--sky);"></i>
+                                    <span class="sec-badge-desc">{{ article.commentaires.count }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url 'detail_article' article.slug %}"><h5 class="card-title">{{ article.titre }}</h5></a>
+                            <p class="section-sub mt-3 mb-3">{{ article.contenu|striptags|truncatechars:150 }}</p>
+                            {% for categorie_article in article.categorie_articles.all|slice:':2' %}
+                                <span class="sc-pill">{{ categorie_article.categorie.nom }}</span>
+                            {% empty %}
+                                <span class="sc-pill">Actualité</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="section-sub">Aucun article publié pour le moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div style="text-align:center">
+            {% if page_obj.has_previous %}
+                <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_obj.previous_page_number }}" class="btn-hero" aria-label="Page précédente">
+                    <svg viewBox="0 0 16 16"><line x1="13" y1="8" x2="3" y2="8"/><polyline points="7,4 3,8 7,12"/></svg>
+                </a>
+            {% endif %}
+            {% for page_number in page_obj.paginator.page_range %}
+                <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_number }}" class="{% if page_number == page_obj.number %}btn-hero{% else %}btn-secondary{% endif %}">{{ page_number }}</a>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?{% if pagination_query %}{{ pagination_query }}&{% endif %}page={{ page_obj.next_page_number }}" class="btn-hero" aria-label="Page suivante">
+                    <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endblock %}
+
+    <div class="col-lg-4">
+        <form method="get" action="{% url 'blog' %}">
+            <div class="p-4 rounded border d-flex justify-content-between gap-1 mt-4" style="background-color: var(--bg);">            
+                <input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Rechercher un article" aria-label="Rechercher un article">
+                <button class="btn-hero"><svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg></button>
+            </div>
+        </form>
+        <div class="p-4 rounded card mt-4">
+            <div class="d-flex justify-content-between gap-1">
+                <h5 class="card-title mb-5 mt-2">Articles récents</h5>
+                <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.15)">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </div>
+            </div>
+            {% for article in recent_articles %}
+                <div class="d-flex justify-content-start gap-1">
+                    {% if article.image %}
+                        <img src="{{ article.image.url }}" class="rounded" width="45" height="50" alt="{{ article.titre }}">
+                    {% else %}
+                        <img src="{% static 'images/cloture-comptes.jpg' %}" class="rounded" width="45" height="50" alt="{{ article.titre }}">
+                    {% endif %}
+                    <div>
+                        <a href="{% url 'detail_article' article.slug %}" style="text-decoration: none;"><h6 class="card-title text-dark">{{ article.titre }}</h6></a>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span class="sec-badge-desc">{{ article.created_at|date:"d F Y" }}</span>
+                            </div>
+                            <div class="d-flex gap-3">
+                                <div class="d-flex align-items-center gap-1">
+                                <i class="bi bi-eye" style="color: var(--sky);"></i>
+                                <span class="sec-badge-desc">{{ article.lectures.count }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                <i class="bi bi-chat" style="color: var(--sky);"></i>
+                                <span class="sec-badge-desc">{{ article.commentaires.count }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if not forloop.last %}<hr>{% endif %}
+            {% empty %}
+                <p class="section-sub">Aucun article récent.</p>
+            {% endfor %}
+        </div>
+        <div class="p-4 rounded card mt-4 mb-5">
+            <div class="d-flex justify-content-between gap-1">
+                <h5 class="card-title mb-5 mt-2">Tags</h5>
+                <div class="stat-icon" style="background:rgba(61,204,142,.1);border-color:rgba(61,204,142,.15)">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                </div>
+            </div>
+            <div>
+                {% for categorie in categories %}
+                    <a href="{% url 'blog' %}?categorie={{ categorie.id }}" class="sc-pill{% if category_id == categorie.id|stringformat:'s' %} active{% endif %}">
+                        {{ categorie.nom }}
+                    </a>
+                {% empty %}
+                    <p class="section-sub">Aucune catégorie associée.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% if category_id or query %}
+            <a href="{% url 'blog' %}" class="btn-secondary">
+                Réinitialiser les filtres
+            </a>
+        {% endif %}
+    </div>
+</div>
+</section>
+
+<section class="features-section" id="newsletter">
+  <div class="row g-5">
+    <div class="col-lg-6">
+      <img src="{% static 'images/_DSC9337.jpg' %}" loading="lazy" class="rounded h-100 w-100" alt="histoire">
+    </div>
+    <div class="col-lg-6">
+        <div class="section-tag">Abonnement</div>
+        <h2 class="section-title mb-4">Abonnez-vous à notre newsletter</h2>
+        <p class="section-sub">Restez informé des dernières actualités et offres de notre cabinet.</p>
+        <form class="mb-3" method="post" action="{% url 'newsletter_subscription' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <input class="form-control" type="email" name="email" placeholder="Adresse e-mail" required>
+            </div>
+            {% if message %}
+              <p class="section-sub text-success mb-3">{{message}}</p>
+            {% endif %}
+            <button type="submit" class="btn-hero">
+              S'abonner
+              <svg viewBox="0 0 16 16"><line x1="3" y1="8" x2="13" y2="8"/><polyline points="9,4 13,8 9,12"/></svg>
+            </button>
+        </form>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

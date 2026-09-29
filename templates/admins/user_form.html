@@ -1,0 +1,21 @@
+<form method="post" action="{% url 'users' %}" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="hidden" name="action" value="{% if user_id %}edit{% else %}create{% endif %}">
+  {% if user_id %}<input type="hidden" name="user_id" value="{{ user_id }}">{% endif %}
+  <div class="modal-body p-4">
+    {{ user_form.non_field_errors }}
+    <div class="row g-3">
+    {% for field in user_form %}
+      <div class="col-md-6">
+        <label class="form-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}</label>
+        {{ field }}
+        {% if field.help_text %}<div class="small text-muted">{{ field.help_text }}</div>{% endif %}
+        {% for error in field.errors %}<div class="text-danger small" role="alert">{{ error }}</div>{% endfor %}
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+  <div class="modal-footer px-4 py-3">
+    <button type="submit" class="btn btn-hero"><i class="bi bi-check2-circle me-1"></i> Enregistrer</button>
+  </div>
+</form>

@@ -1,0 +1,190 @@
+.admin-dashboard {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 100px max(24px, calc((100vw - var(--max-w)) / 2)) 60px;
+  }
+
+  .admin-hero-card {
+    background: linear-gradient(135deg, var(--bg2) 0%, #edf3fa 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .admin-hero-card::after {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(255, 76, 17, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .admin-panel-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    transition: box-shadow .3s ease, border-color .3s ease;
+  }
+
+  .admin-panel-card:hover {
+    border-color: rgba(42, 106, 170, 0.35);
+    box-shadow: 0 10px 25px rgba(11, 22, 73, 0.04);
+  }
+
+  /* Toolbar styling */
+  .articles-toolbar {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 20px;
+  }
+
+  .view-toggle-btn {
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text3);
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all .2s ease;
+  }
+
+  .view-toggle-btn:hover {
+    color: var(--sky);
+    border-color: var(--sky);
+  }
+
+  .view-toggle-btn.active {
+    background: var(--sky);
+    border-color: var(--sky);
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(255, 76, 17, 0.25);
+  }
+
+  /* Article Card in Grid View */
+  .article-admin-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .article-admin-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(42, 106, 170, 0.3);
+    box-shadow: 0 12px 28px rgba(11, 22, 73, 0.07);
+  }
+
+  .article-card-img-wrap {
+    height: 180px;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg2);
+  }
+
+  .article-card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
+  }
+
+  .article-admin-card:hover .article-card-img-wrap img {
+    transform: scale(1.05);
+  }
+
+  .article-img-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(11, 22, 73, 0.75);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 20px;
+  }
+
+  /* Action Buttons */
+  .btn-action-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text3);
+    transition: all .2s ease;
+  }
+
+  .btn-action-icon:hover {
+    background: var(--bg2);
+    color: var(--sky);
+    border-color: var(--sky);
+  }
+
+  .btn-action-icon.text-danger:hover {
+    background: #fdf2f2;
+    color: var(--red) !important;
+    border-color: var(--red);
+  }
+
+  /* Pagination */
+  .pagination-admin .page-link {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 8px;
+    margin: 0 3px;
+    font-weight: 600;
+    font-size: 13px;
+    background: var(--bg);
+    transition: all .2s ease;
+  }
+
+  .pagination-admin .page-link:hover {
+    background: var(--bg2);
+    color: var(--sky);
+    border-color: var(--sky);
+  }
+
+  .pagination-admin .page-item.active .page-link {
+    background: var(--sky);
+    border-color: var(--sky);
+    color: #ffffff;
+  }
+
+  /* Empty state */
+  .empty-state-box {
+    text-align: center;
+    padding: 48px 24px;
+    background: var(--bg2);
+    border-radius: 16px;
+    border: 1px dashed var(--border);
+  }
+
+  .empty-state-icon {
+    font-size: 40px;
+    color: var(--text3);
+    opacity: 0.6;
+    margin-bottom: 12px;
+  }
+
+  .empty-state-text {
+    font-size: 15px;
+    color: var(--text3);
+    margin: 0;
+  }
