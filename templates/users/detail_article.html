@@ -1,5 +1,5 @@
 {% extends 'users/blog.html' %}
-{% load static %}
+{% load static article_format %}
 
 {% block actu %}
 {% if article.image %}
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="mb-4">
-                <div class="article-rich-content section-sub mt-3 mb-3">{{ article.contenu|safe }}</div>
+                <div class="article-rich-content section-sub mt-3 mb-3">{{ article.contenu|format_article_content:article.titre }}</div>
                 {% for categorie_article in article.categorie_articles.all|slice:':2' %}
                     <span class="sc-pill">{{ categorie_article.categorie.nom }}</span>
                 {% empty %}
