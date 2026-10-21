@@ -173,7 +173,7 @@ def connexion(request):
         
         user = User.objects.filter(email=email).first()
         if not user:
-            return render(request, 'login.html', {'error': 'Identifiants incorrects. Veuillez réessayer.'})
+            return render(request, 'users/login.html', {'error': 'Identifiants incorrects. Veuillez réessayer.'})
 
         verification = authenticate(request, username=user.username, password=password)
         if verification:

@@ -188,3 +188,21 @@
     color: var(--text3);
     margin: 0;
   }
+
+  /* CKEditor conserve l'apparence Bootstrap du formulaire d'administration. */
+  .ck.ck-editor {
+    width: 100%;
+  }
+
+  .ck.ck-toolbar {
+    border-color: var(--border);
+    border-radius: 10px 10px 0 0;
+  }
+
+  .ck.ck-editor__main > .ck-editor__editable {
+    min-height: 240px;
+    border-color: var(--border);
+    border-radius: 0 0 10px 10px;
+    font-size: 14px;
+    line-height: 1.7;
+  }

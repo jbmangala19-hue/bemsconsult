@@ -102,6 +102,8 @@ class ArticlesManagementTests(TestCase):
         self.assertContains(response, "Reporting de durabilité IFRS S1 et S2")
         self.assertContains(response, "Ajouter une publication")
         self.assertContains(response, "modalCreateArticle")
+        self.assertContains(response, "classic/ckeditor.js")
+        self.assertContains(response, "article-content-editor")
 
     def test_articles_search(self):
         response = self.client.get(reverse('articles') + '?q=durabilité')

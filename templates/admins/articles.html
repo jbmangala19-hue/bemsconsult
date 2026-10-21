@@ -509,8 +509,9 @@
 
           <!-- Contenu -->
           <div class="mb-2">
-            <label class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Contenu de l'article <span class="text-danger">*</span></label>
-            <textarea name="contenu" class="form-control" rows="8" placeholder="Rédigez ici le corps de l'article, les analyses détaillées et les recommandations professionnelles..." required style="border-radius: 10px; border-color: var(--border); font-size: 13px;"></textarea>
+            <label for="createArticleContent" class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Contenu de l'article <span class="text-danger">*</span></label>
+            <textarea id="createArticleContent" name="contenu" class="form-control article-content-editor" rows="8" placeholder="Rédigez ici le corps de l'article, les analyses détaillées et les recommandations professionnelles..."></textarea>
+            <div class="form-text">Utilisez la barre d'outils pour structurer et mettre en forme le contenu.</div>
           </div>
 
         </div>
@@ -585,8 +586,8 @@
           </div>
 
           <!-- Contenu complet -->
-          <div class="p-3 rounded border" style="background: var(--bg); max-height: 280px; overflow-y: auto; font-size: 13px; line-height: 1.7; color: var(--text2); white-space: pre-line;">
-            {{ article.contenu }}
+          <div class="article-rich-content p-3 rounded border" style="background: var(--bg); max-height: 280px; overflow-y: auto; font-size: 13px; color: var(--text2);">
+            {{ article.contenu|safe }}
           </div>
         </div>
 
@@ -663,8 +664,9 @@
 
             <!-- Contenu -->
             <div class="mb-2">
-              <label class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Contenu de l'article <span class="text-danger">*</span></label>
-              <textarea name="contenu" class="form-control" rows="8" required style="border-radius: 10px; border-color: var(--border); font-size: 13px;">{{ article.contenu }}</textarea>
+              <label for="editArticleContent{{ article.id }}" class="form-label fw-semibold" style="font-size: 13px; color: var(--text);">Contenu de l'article <span class="text-danger">*</span></label>
+              <textarea id="editArticleContent{{ article.id }}" name="contenu" class="form-control article-content-editor" rows="8">{{ article.contenu }}</textarea>
+              <div class="form-text">Utilisez la barre d'outils pour modifier la mise en forme.</div>
             </div>
 
           </div>
@@ -728,7 +730,33 @@
 {% endfor %}
 
 <!-- JAVASCRIPT : ANIMATION STATS, BASCULE DE VUE & APERÇU D'IMAGE -->
+<script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
 <script>
+  // Editeur de texte riche pour la creation et la modification des articles.
+  document.querySelectorAll('.article-content-editor').forEach((textarea) => {
+    ClassicEditor.create(textarea, {
+      toolbar: [
+        'heading', '|', 'bold', 'italic', 'link', '|',
+        'bulletedList', 'numberedList', 'blockQuote', '|', 'undo', 'redo'
+      ]
+    })
+      .then((editor) => {
+        const form = textarea.closest('form');
+        editor.ui.view.editable.element.setAttribute(
+          'aria-label',
+          "Contenu de l'article"
+        );
+        form.addEventListener('submit', (event) => {
+          editor.updateSourceElement();
+          if (!textarea.value.trim()) {
+            event.preventDefault();
+            editor.editing.view.focus();
+          }
+        });
+      })
+      .catch((error) => console.error(error));
+  });
+
   // Bascule Vue Cartes / Vue Liste
   function switchView(view) {
     const cardView = document.getElementById('articlesCardView');

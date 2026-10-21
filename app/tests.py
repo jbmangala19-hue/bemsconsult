@@ -5,6 +5,18 @@ from django.urls import reverse
 from .models import Article, Commentaire, Lecture, Notification, Utilisateur
 
 
+class ConnexionTests(TestCase):
+    def test_unknown_email_renders_login_template_with_error(self):
+        response = self.client.post(
+            reverse('connexion'),
+            {'email': 'inconnu@example.com', 'password': 'incorrect'},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'users/login.html')
+        self.assertContains(response, 'Identifiants incorrects')
+
+
 class DetailArticleNotificationTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='alice', email='alice@example.com', password='secret123')
@@ -34,3 +46,13 @@ class DetailArticleNotificationTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Notification.objects.filter(type='Commentaire').exists())
+
+    def test_formatted_article_content_is_rendered_as_html(self):
+        self.article.contenu = '<h2>Introduction</h2><p>Un texte <strong>important</strong>.</p>'
+        self.article.save(update_fields=['contenu'])
+
+        response = self.client.get(reverse('detail_article', args=[self.article.slug]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<h2>Introduction</h2>', html=True)
+        self.assertContains(response, '<strong>important</strong>', html=True)

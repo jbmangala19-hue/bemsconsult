@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block actu %}
+{% if article.image %}
 <style>
     .couverture-section::before{
     content: "";
@@ -18,6 +19,7 @@
     z-index: -1;
     }
 </style>
+{% endif %}
 
 <section class="couverture-section">
     <div class="mb-5" style="text-align:center; margin-top: 100px;">
@@ -27,7 +29,7 @@
         <span class="sc-pill">Actualité</span>
     {% endfor %}
       <h2 class="section-title">{{ article.titre }}</h2>
-      <p class="section-sub" style="max-width:500px;margin:0 auto;">{{ article.contenu|truncatewords:30 }}</p>
+      <p class="section-sub" style="max-width:500px;margin:0 auto;">{{ article.contenu|striptags|truncatewords:30 }}</p>
       <div class="d-flex justify-content-center gap-2 mb-5 mt-4">
             <button class="btn-hero" onclick="partager()">
                 Partager
@@ -65,7 +67,7 @@
                 </div>
             </div>
             <div class="mb-4">
-                <p class="section-sub mt-3 mb-3">{{ article.contenu|linebreaks }}</p>
+                <div class="article-rich-content section-sub mt-3 mb-3">{{ article.contenu|safe }}</div>
                 {% for categorie_article in article.categorie_articles.all|slice:':2' %}
                     <span class="sc-pill">{{ categorie_article.categorie.nom }}</span>
                 {% empty %}
