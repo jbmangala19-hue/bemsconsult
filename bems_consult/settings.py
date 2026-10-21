@@ -128,6 +128,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Utilisation d'AWS S3 en production (si DEBUG=False ou force par USE_S3=True)
 USE_S3 = env.bool("USE_S3", default=not DEBUG)
@@ -178,9 +181,6 @@ else:
     # DJANGO STANDARD STORAGE (Local / DEBUG = True)
     # ==========================================================
     STATIC_URL = "/static/"
-    STATICFILES_DIRS = [
-        BASE_DIR / "static",
-    ]
     STATIC_ROOT = BASE_DIR / "staticfiles"
 
     MEDIA_URL = "/media/"
