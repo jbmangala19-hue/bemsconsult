@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -131,11 +132,22 @@ USE_TZ = True
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # Utilisation d'AWS S3 en production (si DEBUG=False ou force par USE_S3=True)
 USE_S3 = env.bool("USE_S3", default=not DEBUG)
 
-if USE_S3 and env("AWS_STORAGE_BUCKET_NAME", default=None):
+if (
+    USE_S3
+    and env("AWS_STORAGE_BUCKET_NAME", default=None)
+    and env("AWS_S3_REGION_NAME", default=None)
+):
     # ==========================================================
     # AWS S3 STORAGE (Production)
     # ==========================================================
@@ -149,26 +161,22 @@ if USE_S3 and env("AWS_STORAGE_BUCKET_NAME", default=None):
     AWS_QUERYSTRING_AUTH = False
     AWS_S3_FILE_OVERWRITE = False
 
-    STORAGES = {
-        "default": {
-            "BACKEND": "storages.backends.s3.S3Storage",
-            "OPTIONS": {
-                "location": "bemsconsult/media",
-            },
+    STORAGES["default"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "location": "bemsconsult/media",
         },
-        "staticfiles": {
-            "BACKEND": "storages.backends.s3.S3Storage",
-            "OPTIONS": {
-                "location": "bemsconsult/static",
-            },
+    }
+    STORAGES["staticfiles"] = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "location": "bemsconsult/static",
         },
     }
 
     STATIC_URL = (
         f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
         "bemsconsult/static/"
-        if AWS_STORAGE_BUCKET_NAME and AWS_S3_REGION_NAME
-        else "/static/"
     )
     MEDIA_URL = (
         f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
@@ -180,17 +188,9 @@ else:
     # ==========================================================
     # DJANGO STANDARD STORAGE (Local / DEBUG = True)
     # ==========================================================
-    STATIC_URL = "/static/"
-    STATIC_ROOT = BASE_DIR / "staticfiles"
-
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "media"
 
-    STORAGES = {
-        "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-        "staticfiles": {
-            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        },
+    STORAGES["default"] = {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
     }
