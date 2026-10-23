@@ -11,18 +11,25 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Les réglages locaux restent en mode debug sans dépendre de DEBUG dans .env.
+# Render fournit automatiquement RENDER=true pour ses services.
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-bemsconsult-local-development-key"
+SECRET_KEY = env("SECRET_KEY", default="django-insecure-bemsconsult-local-development-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not bool(os.environ.get("RENDER"))
 
 ALLOWED_HOSTS = ["*"]
 
@@ -125,10 +132,10 @@ STATICFILES_DIRS = [
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-AWS_ACCESS_KEY_ID = None
-AWS_SECRET_ACCESS_KEY = None
-AWS_STORAGE_BUCKET_NAME = ""
-AWS_S3_REGION_NAME = "us-east-1"
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", default=None)
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", default=None)
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", default="")
+AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default="us-east-1")
 
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 AWS_DEFAULT_ACL = None
