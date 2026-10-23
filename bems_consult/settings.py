@@ -177,6 +177,11 @@ if (
             "file_overwrite": True,
         },
     }
+    # Le navigateur doit charger les fichiers depuis S3, pas depuis Render.
+    STATIC_URL = (
+        f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
+        "bemsconsult/static/"
+    )
     MEDIA_URL = (
         f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
         "bemsconsult/media/"
