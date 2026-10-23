@@ -166,13 +166,18 @@ if (
             "location": "bemsconsult/media",
         },
     }
+    # En production, collectstatic envoie aussi CSS/JS/images sur S3.
+    # L'écrasement est activé pour publier les versions mises à jour au déploiement.
     STORAGES["staticfiles"] = {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
             "location": "bemsconsult/static",
+            # Les CSS font référence aux polices/images par chemins relatifs;
+            # les objets statiques S3 doivent donc être lisibles sans signature.
+            "querystring_auth": False,
+            "file_overwrite": True,
         },
     }
-
     STATIC_URL = (
         f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
         "bemsconsult/static/"
@@ -198,6 +203,7 @@ else:
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         }
     else:
+        # Fallback Render/local production if S3 is not configured.
         MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
         STORAGES["staticfiles"] = {
             "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
