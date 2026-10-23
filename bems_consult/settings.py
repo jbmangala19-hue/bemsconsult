@@ -133,6 +133,16 @@ STATICFILES_DIRS = [
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", default="")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", default="")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", default="")
+AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default="us-east-1")
+
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+
 STORAGES = {
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
@@ -144,22 +154,13 @@ USE_S3 = env.bool("USE_S3", default=not DEBUG)
 
 if (
     USE_S3
-    and env("AWS_STORAGE_BUCKET_NAME", default=None)
-    and env("AWS_S3_REGION_NAME", default=None)
+    and AWS_ACCESS_KEY_ID
+    and AWS_SECRET_ACCESS_KEY
+    and AWS_STORAGE_BUCKET_NAME
 ):
     # ==========================================================
     # AWS S3 STORAGE (Production)
     # ==========================================================
-    AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID", default=None)
-    AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY", default=None)
-    AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME", default=None)
-    AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default=None)
-
-    AWS_S3_SIGNATURE_VERSION = "s3v4"
-    AWS_DEFAULT_ACL = None
-    AWS_QUERYSTRING_AUTH = False
-    AWS_S3_FILE_OVERWRITE = False
-
     STORAGES["default"] = {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
@@ -172,16 +173,10 @@ if (
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
             "location": "bemsconsult/static",
-            # Les CSS font référence aux polices/images par chemins relatifs;
-            # les objets statiques S3 doivent donc être lisibles sans signature.
-            "querystring_auth": False,
+            # Republie les fichiers portant le même nom à chaque déploiement.
             "file_overwrite": True,
         },
     }
-    STATIC_URL = (
-        f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
-        "bemsconsult/static/"
-    )
     MEDIA_URL = (
         f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/"
         "bemsconsult/media/"
@@ -198,13 +193,10 @@ else:
     STORAGES["default"] = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     }
-    if DEBUG:
-        STORAGES["staticfiles"] = {
-            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-        }
-    else:
-        # Fallback Render/local production if S3 is not configured.
+    STORAGES["staticfiles"] = {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
+        if DEBUG
+        else "whitenoise.storage.CompressedStaticFilesStorage",
+    }
+    if not DEBUG:
         MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
-        STORAGES["staticfiles"] = {
-            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-        }
