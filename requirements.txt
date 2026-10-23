@@ -12,7 +12,6 @@ bottle-websocket==0.2.9
 certifi==2026.1.4
 cffi==2.0.0
 charset-normalizer==3.4.4
-clr_loader==0.2.10
 colorama==0.4.6
 cryptography==46.0.4
 distro==1.9.0
@@ -75,7 +74,6 @@ pyparsing==3.3.2
 PyPDF2==3.0.1
 pyserial==3.5
 python-dateutil==2.9.0.post0
-pythonnet==3.0.5
 pytz==2025.2
 pywebview==6.1
 pywin32-ctypes==0.2.3
